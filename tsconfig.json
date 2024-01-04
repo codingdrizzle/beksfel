@@ -108,7 +108,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/index.jsx"  ],
+, "pages/index.jsx", "src/api/config.js"  ],
   "exclude": [
     "node_modules"
   ]
