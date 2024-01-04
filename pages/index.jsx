@@ -9,19 +9,6 @@ export default function Home() {
     const [isSwitched, setIsSwitched] = useState(false);
     const [viewPassword, setViewPassword] = useState(false);
 
-    useEffect(() => {
-        const switchBtns = document.querySelectorAll(".switch-btn");
-        switchBtns.forEach(btn => {
-            btn.addEventListener("click", () => setIsSwitched(prevState => !prevState));
-        });
-        return () => {
-            switchBtns.forEach(btn => {
-                btn.removeEventListener("click", () => setIsSwitched(prevState => !prevState));
-            });
-        };
-    }, []);
-
-
     const handleSignin = (event) => {
         event.preventDefault()
         
