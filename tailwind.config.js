@@ -31,7 +31,12 @@ module.exports = {
 
               '2xl': '1536px',
               // => @media (min-width: 1536px) { ... }
-          }
+          },
+          boxShadow: {
+              'auth-form-shadow-1': '10px 10px 10px #d1d9e6, -10px -10px 10px #f9f9f9',
+              'auth-form-shadow-2': '4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9'
+              // Add your custom shadow as a new utility class
+          },
     },
   },
   plugins: [],
