@@ -69,7 +69,7 @@ export default function Home() {
                                     <p className="text-sm leading-6 text-center tracking-[0.25px]">To keep connected with us please sign-in with your user credentials</p>
                                     <button className="auth-button switch-btn" onClick={() => setIsSwitched(true)}>LOGIN</button></>) :
                                 (<><h2 className="text-2xl py-4 font-semibold leading-[2] text-[#181818]">Hello there!</h2>
-                                    <p className="text-sm leading-6 text-center tracking-[0.25px]">Enter your register an account with us and get started...</p>
+                                    <p className="text-sm leading-6 text-center tracking-[0.25px]">Enter your account details to register with us and get started...</p>
                                     <button className="auth-button switch-btn" onClick={() => setIsSwitched(false)}>REGISTER</button></>)
                         }
                     </div>
