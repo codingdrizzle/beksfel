@@ -8,7 +8,7 @@ const ForgotPassword = () => {
   const [resetPassword, setResetPassword] = useState()
   const [email, setEmail] = useState()
 
-  const handleResestPassword = (event) => {
+  const handleForgotPassword = (event) => {
     event.preventDefault()
   }
   return (
@@ -22,7 +22,7 @@ const ForgotPassword = () => {
             <ResetLogo />
             <p className='flex flex-wrap font-semibold text-sm p-1 '>Enter email here and we&apos;ll send you a link to reset your password</p>
             <input className="form-input" type="text" placeholder="Email" />
-            <button className="auth-button" onClick={handleResestPassword}>Reset Password</button>
+            <button className="auth-button" onClick={handleForgotPassword}>Reset Password</button>
           </form>
         </div>
 

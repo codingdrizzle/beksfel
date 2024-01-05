@@ -6,7 +6,7 @@ const ResetLogo = (props) => {
 
   return (
     <div> 
-        <Image  className='flex justify-center h-auto p-1 ' src={Logo} alt='Reset-Password-logo'  width={props?.width} height={props?.height}/>
+        <Image  className='flex justify-center h-auto p-1' src={Logo} alt='Reset-Password-logo'  width={props?.width} height={props?.height}/>
     </div>
   )
 }
