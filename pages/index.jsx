@@ -1,22 +1,73 @@
 import Head from 'next/head'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Logo from '@/commons/Logo'
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+import { Login } from '../src/api'
+import { useAtom } from 'jotai';
+import { authUser, token } from '../src/store'
+import Loader from '../src/commons/Loader'
+import { useAlert } from '../src/hooks/useCustomAlert'
+import DecodeToken from '../src/utils/decode-token'
 
 export default function Home() {
-
-    const [isSwitched, setIsSwitched] = useState(false);
+    const router = useRouter()
+    const { showAlert } = useAlert()
+    const [, setToken] = useAtom(token)
+    const [, setAuthUser] = useAtom(authUser)
+    const [isSwitched, setIsSwitched] = useState(true);
     const [viewPassword, setViewPassword] = useState(false);
+    const [processing, setProcessing] = useState(false);
 
-    const handleSignin = (event) => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const [firstname, setFirstname] = useState('')
+    const [surname, setSurname] = useState('')
+    const [mail, setMail] = useState('')
+    const [pass, setPass] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+
+    const handleLogin = async (event) => {
         event.preventDefault()
-        
+        try {
+            setProcessing(true)
+            const response = await Login(email, password)
+            if (response.code === 200) {
+                setToken(response.token)
+
+                const userData = DecodeToken(response.token)
+
+                if (Object.keys(userData).length > 0) setAuthUser(userData)
+                else {
+                    setProcessing(false)
+                    return showAlert('Invalid token, try again', 'error')
+                }
+
+                showAlert(response.message, 'success')
+                setProcessing(false)
+                return router.push('/page')
+            } else {
+                setProcessing(false)
+                return showAlert(response, 'error')
+            }
+        } catch (error) {
+            setProcessing(false)
+            return showAlert(error.message, 'error')
+        }
     }
 
     const handleSignup = (event) => {
         event.preventDefault()
+        try {
+            setProcessing(true)
+            //const response = await Login(email, password)
 
+        } catch (error) {
+            setProcessing(false)
+            return showAlert(error.message, 'error')
+        }
     }
 
     return (
@@ -31,32 +82,33 @@ export default function Home() {
                     <form className="flex flex-col justify-center items-center w-full h-full">
                         <Logo width={150} />
                         <h2 className="text-2xl py-4 font-semibold leading-[2] text-[#181818]">Create Account</h2>
-                        <input className="form-input" type="text" placeholder="Name" />
-                        <input className="form-input" type="text" placeholder="Email" />
+                        <input className="form-input" type="text" placeholder="Firstname" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
+                        <input className="form-input" type="text" placeholder="Surname" value={surname} onChange={(e) => setSurname(e.target.value)} />
+                        <input className="form-input" type="text" placeholder="Email" value={mail} onChange={(e) => setMail(e.target.value)} />
                         <div className='relative'>
-                            <input className="form-input" type={viewPassword ? 'text' : 'password'} placeholder="Password" />
+                            <input className="form-input" type={viewPassword ? 'text' : 'password'} placeholder="Password" value={pass} onChange={(e) => setPass(e.target.value)} />
                             <span className='absolute top-[40%] right-3 text-base' onClick={() => setViewPassword(prev => !prev)}>{viewPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}</span>
                         </div>
                         <div className='relative'>
-                            <input className="form-input" type={viewPassword ? 'text' : 'password'} placeholder="Confirm Password" />
+                            <input className="form-input" type={viewPassword ? 'text' : 'password'} placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                             <span className='absolute top-[40%] right-3 text-base' onClick={() => setViewPassword(prev => !prev)}>{viewPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}</span>
                         </div>
                         <span className='md:hidden' onClick={() => setIsSwitched(true)}>Already have an account? <u>Login</u></span>
-                        <button className="auth-button" onClick={handleSignup}>Register</button>
+                        <button className="auth-button" onClick={handleSignup}>{processing ? <Loader /> : 'Register'}</button>
                     </form>
                 </div>
                 <div className={`flex justify-center items-center absolute top-0 w-[600px] h-full p-[25px] bg-[#ecf0f3] transition-all duration-[1250ms] ${isSwitched ? 'z-[200] left-0' : 'z-[0] left-[calc(100%-600px)]'}`}>
                     <form className="flex flex-col justify-center items-center w-full h-full">
                         <Logo width={150} />
                         <h2 className="text-2xl py-4 font-semibold leading-[2] text-[#181818]">Login to Beksfel</h2>
-                        <input className="form-input" type="email" placeholder="Email" />
+                        <input className="form-input" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                         <div className='relative'>
-                            <input className="form-input" type={viewPassword ? 'text' : 'password'} placeholder="Password" />
+                            <input className="form-input" type={viewPassword ? 'text' : 'password'} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                             <span className='absolute top-[40%] right-3 text-base' onClick={() => setViewPassword(prev => !prev)}>{viewPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}</span>
                         </div>
                         <span className='md:hidden' onClick={() => setIsSwitched(false)}>Don&apos;t have an account? <u>Register</u></span>
                         <Link href={'reset-password'} className="text-[#a0a5a8] text-xs mt-6 border-b-[1px] border-[#a0a5a8] ">Forgot your password?</Link>
-                        <button className="auth-button" onClick={handleSignin}>LOGIN</button>
+                        <button className="auth-button" onClick={handleLogin}>{processing ? <Loader /> : 'LOGIN'}</button>
                     </form>
                 </div>
                 <div className={`hidden md:flex justify-center items-center absolute top-0 left-0 h-full w-[400px] p-[50px] z-[200] transition-all duration-[1250ms] bg-[#ecf0f3] overflow-hidden shadow-auth-form-shadow-2  ${isSwitched ? 'left-[calc(100%-400px)]  transition-all duration-[1250ms] origin-' : ''}`} id="switch-cnt">
@@ -67,10 +119,10 @@ export default function Home() {
                             !isSwitched ?
                                 (<><h2 className="text-2xl py-4 font-semibold leading-[2] text-[#181818]">Welcome Back !</h2>
                                     <p className="text-sm leading-6 text-center tracking-[0.25px]">To keep connected with us please sign-in with your user credentials</p>
-                                    <button className="auth-button switch-btn" onClick={() => setIsSwitched(true)}>LOGIN</button></>) :
+                                    <button className="auth-button switch-btn" onClick={() => setIsSwitched(true)}>Login</button></>) :
                                 (<><h2 className="text-2xl py-4 font-semibold leading-[2] text-[#181818]">Hello there!</h2>
                                     <p className="text-sm leading-6 text-center tracking-[0.25px]">Enter your register an account with us and get started...</p>
-                                    <button className="auth-button switch-btn" onClick={() => setIsSwitched(false)}>REGISTER</button></>)
+                                    <button className="auth-button switch-btn" onClick={() => setIsSwitched(false)}>Register</button></>)
                         }
                     </div>
 
