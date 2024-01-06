@@ -71,8 +71,6 @@ const Verify = () => {
         setProcessing(true)
 
         if (Number(otp) === Number(otpFromServer)) {
-            setProcessing(false)
-
             const response = await Register(newUserData)
             if (response.code === 201) {
                 setProcessing(false)
@@ -119,7 +117,7 @@ const Verify = () => {
                 }
 
                 <div className='flex flex-col-reverse gap-2'>
-                    <button type='submit' className="auth-button" style={{ margin: 0 }} onClick={!isVerified ? handleConfirm : reRoute}>{!isVerified ? 'Confirm' : 'Go to Login'}{processing && <Loader />}</button>
+                    <button type='submit' className="auth-button" style={{ margin: 0 }} onClick={!isVerified ? handleConfirm : reRoute}>{!isVerified && 'Confirm'}{isVerified && 'Go to Login'}{processing && <Loader />}</button>
                     {!isVerified && <button type='' onClick={handleResend} className='my-4 cursor-pointer text-sm hover:text-gray-600'>Resend Code</button>}
                 </div>
             </form >
