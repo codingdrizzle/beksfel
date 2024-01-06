@@ -13,11 +13,8 @@ const Verify = () => {
 
     const length = 6;
     const inputs = Array(length).fill(null);
-    const inputRefs = useRef([]);
-
-    useEffect(() => {
-        inputRefs.current = inputRefs.current.slice(0, length).map((_, index) => inputRefs.current[index] || createRef());
-    }, []);
+    const ref = useRef;
+    const inputRefs = inputs.map(() => ref());
 
     const handleChange = (e, index) => {
         const value = e.target.value;
@@ -98,7 +95,7 @@ const Verify = () => {
         <div className="flex flex-col p-10 justify-center items-center sm:shadow-auth-form-shadow-1 w-auto h-auto min-h-[500px] max-h-full rounded-lg">
             <Image src={verifyAccountImage} alt='verify-account-image' width={400} />
             <h2 className="text-2xl py-1 font-semibold leading-[2] text-[#181818]">{!isVerified ? 'Verify Your Account' : 'Account Verified'}</h2>
-            <p className="w-[75%] text-sm leading-6 text-center tracking-[0.25px] my-4">{!isVerified ? 'Insert the 6-digit code that we sent to your email.': 'Registration process done, now you can fully access your account.'}</p>
+            <p className="w-[75%] text-sm leading-6 text-center tracking-[0.25px] my-4">{!isVerified ? 'Insert the 6-digit code that we sent to your email.' : 'Registration process done, now you can fully access your account.'}</p>
 
             <form className='flex flex-col justify-center items-center'>
                 {
@@ -123,7 +120,7 @@ const Verify = () => {
 
                 <div className='flex flex-col-reverse gap-2'>
                     <button type='submit' className="auth-button" style={{ margin: 0 }} onClick={!isVerified ? handleConfirm : reRoute}>{!isVerified ? 'Confirm' : 'Go to Login'}{processing && <Loader />}</button>
-                    {!isVerified && <button type='' onClick={handleResend} className='my-4 cursor-pointer text-sm hover:text-gray-600'>Resend Code</button> }
+                    {!isVerified && <button type='' onClick={handleResend} className='my-4 cursor-pointer text-sm hover:text-gray-600'>Resend Code</button>}
                 </div>
             </form >
         </div >
