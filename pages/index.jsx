@@ -4,7 +4,7 @@ import Logo from '@/commons/Logo'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-import { Login } from '../src/api'
+import { Login, VerifyAccount } from '../src/api'
 import { useAtom } from 'jotai';
 import { authUser, token } from '../src/store'
 import Loader from '../src/commons/Loader'
@@ -47,7 +47,7 @@ export default function Home() {
 
                 showAlert(response.message, 'success')
                 setProcessing(false)
-                return router.push('/page')
+                return router.push('/dashboard')
             } else {
                 setProcessing(false)
                 return showAlert(response, 'error')
@@ -58,12 +58,22 @@ export default function Home() {
         }
     }
 
-    const handleSignup = (event) => {
+    const handleSignup = async (event) => {
         event.preventDefault()
         try {
             setProcessing(true)
-            //const response = await Login(email, password)
+            const response = await VerifyAccount(firstname, mail)
 
+            if (response.code === 200) {
+                localStorage.setItem('newUserData', JSON.stringify({firstname, surname, email: mail, password: pass}))
+                localStorage.setItem('newUserToken', response.data)
+                setProcessing(false)
+                showAlert('We sent you a confirmation code to verify your account.', 'success')
+                router.push('/verify')
+            } else {
+                setProcessing(false)
+                return showAlert(response, 'error')
+            }
         } catch (error) {
             setProcessing(false)
             return showAlert(error.message, 'error')

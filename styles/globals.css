@@ -76,6 +76,9 @@ body {
     box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #f9f9f9;
     border: none;
     outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .switch__circle {
@@ -106,7 +109,7 @@ body {
     width: 35px;
     height: 35px;
     animation: spin 1s linear infinite;
-    margin: auto;
+    margin: auto 4px;
 }
 
 @keyframes spin {
