@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Loader from '../src/commons/Loader'
 import verifyAccountImage from '../src/assets/verify-account.svg'
 import DecodeToken from '../src/utils/decode-token'
-import { Register } from '../src/api'
+import { Register, VerifyAccount } from '../src/api'
 import { useAlert } from '../src/hooks/useCustomAlert'
 
 const Verify = () => {
@@ -61,8 +61,20 @@ const Verify = () => {
         setNewUserData(userData)
     }, [])
 
-    const handleResend = (event) => {
+    const handleResend = async (event) => {
         event.preventDefault()
+
+        try {
+            const response = await VerifyAccount(newUserData.firstname, newUserData.email)
+
+            if (response.code === 200) {
+                showAlert('We sent you a confirmation code to verify your account.', 'success')
+            } else {
+                return showAlert(response, 'error')
+            }
+        } catch (error) {
+            return showAlert(`Some error: ${error.message}`, 'error')
+        }
 
     }
 
@@ -70,16 +82,28 @@ const Verify = () => {
         event.preventDefault()
         setProcessing(true)
 
-        if (Number(otp) === Number(otpFromServer)) {
-            const response = await Register(newUserData)
-            if (response.code === 201) {
-                setProcessing(false)
-                showAlert(response.message, 'success')
-                setVerified(true)
+        try {
+            if (Number(otp) === Number(otpFromServer)) {
+                const response = await Register(newUserData)
+                if (response.code === 201) {
+                    setProcessing(false)
+                    showAlert(response.message, 'success')
+                    setVerified(true)
+                } else if (response.code === 409) {
+                    setProcessing(false)
+                    showAlert(response.message, 'warning')
+                    return router.push('/')
+                } else {
+                    setProcessing(false)
+                    return showAlert(response, 'error')
+                }
             } else {
                 setProcessing(false)
-                return showAlert(response, 'error')
+                return showAlert('Incorrect code entered', 'error')
             }
+        } catch (error) {
+            setProcessing(false)
+            return showAlert(error.message, 'error')
         }
     }
 
