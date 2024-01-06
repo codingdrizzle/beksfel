@@ -13,7 +13,11 @@ const Verify = () => {
 
     const length = 6;
     const inputs = Array(length).fill(null);
-    const inputRefs = inputs.map(() => useRef());
+    const inputRefs = useRef([]);
+
+    useEffect(() => {
+        inputRefs.current = inputRefs.current.slice(0, length).map((_, index) => inputRefs.current[index] || createRef());
+    }, []);
 
     const handleChange = (e, index) => {
         const value = e.target.value;
