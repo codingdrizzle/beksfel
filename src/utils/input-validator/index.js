@@ -1,7 +1,6 @@
 const Joi = require('joi');
 export { validateInput } from './validator'
 
-//const passwordPattern = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\]).{8,32}$'
 const passwordPattern = '^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]+$'
 
 export const LoginFormSchema = Joi.object({
