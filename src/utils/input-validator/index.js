@@ -1,7 +1,7 @@
 const Joi = require('joi');
 export { validateInput } from './validator'
 
-const passwordPattern = "^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+const passwordPattern = '^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]+$'
 
 export const LoginFormSchema = Joi.object({
     email: Joi.string()
@@ -15,11 +15,15 @@ export const LoginFormSchema = Joi.object({
 
     password: Joi.string()
         .regex(RegExp(passwordPattern))
+        .min(8)
+        .max(32)
         .messages({
             'string.pattern.base': 'Password must be at least 8 characters and must include at least one letter, one number and one special character',
             'string.empty': 'Password must not be empty',
             'any.required': 'Password is required',
-        }),
+            'string.min': 'Password must be at least 8 characters long',
+            'string.max': 'Password cannot be greather than 32 characters',
+        })
 })
 
 export const RegisterFormSchema = Joi.object({
@@ -51,11 +55,15 @@ export const RegisterFormSchema = Joi.object({
 
 
     password: Joi.string()
-        //.regex(RegExp(passwordPattern))
+        .regex(RegExp(passwordPattern))
+        .min(8)
+        .max(32)
         .messages({
             'string.pattern.base': 'Password must be at least 8 characters and must include at least one letter, one number and one special character',
             'string.empty': 'Password must not be empty',
             'any.required': 'Password is required',
+            'string.min': 'Password must be at least 8 characters long',
+            'string.max': 'Password cannot be greather than 32 characters',
         }),
 
     confirmPassword: Joi.ref('password'),
@@ -84,11 +92,15 @@ export const ForgotPasswordSchema = Joi.object({
 
 export const ResetPasswordSchema = Joi.object({
     newPassword: Joi.string()
-        //.regex(RegExp(passwordPattern))
+        .regex(RegExp(passwordPattern))
+        .min(8)
+        .max(32)
         .messages({
             'string.pattern.base': 'Password must be at least 8 characters and must include at least one letter, one number and one special character',
             'string.empty': 'Password must not be empty',
             'any.required': 'Password is required',
+            'string.min': 'Password must be at least 8 characters long',
+            'string.max': 'Password cannot be greather than 32 characters',
         }),
     confirmNewPassword: Joi.any()
         .valid(
