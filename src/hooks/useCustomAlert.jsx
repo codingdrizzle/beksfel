@@ -9,7 +9,7 @@ export const AlertProvider = ({ children }) => {
         setAlert({message, type});
         setTimeout(() => {
             setAlert(null);
-        }, 3000); // Hide the alert after 3 seconds
+        }, type === 'error' ? 3500 : 3000);
     };
 
     return (
