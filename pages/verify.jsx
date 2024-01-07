@@ -6,6 +6,7 @@ import verifyAccountImage from '../src/assets/verify-account.svg'
 import DecodeToken from '../src/utils/decode-token'
 import { Register, VerifyAccount } from '../src/api'
 import { useAlert } from '../src/hooks/useCustomAlert'
+import { validateInput, OtpInputSchema } from '../src/utils/input-validator'
 
 const Verify = () => {
     const router = useRouter();
@@ -62,49 +63,40 @@ const Verify = () => {
     }, [])
 
     const handleResend = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
+        const response = await VerifyAccount(newUserData.firstname, newUserData.email)
 
-        try {
-            const response = await VerifyAccount(newUserData.firstname, newUserData.email)
-
-            if (response.code === 200) {
-                showAlert('We sent you a confirmation code to verify your account.', 'success')
-            } else {
-                return showAlert(response, 'error')
-            }
-        } catch (error) {
-            return showAlert(`Some error: ${error.message}`, 'error')
+        if (response.code === 200) {
+            return showAlert('We sent you a confirmation code to verify your account.', 'success')
         }
-
+        return showAlert(response, 'error')
     }
 
-    const handleConfirm = async (event) => {
-        event.preventDefault()
-        setProcessing(true)
+    const handleConfirm = () => {
+        const errorMessage = validateInput(OtpInputSchema, { otp })
+        if (errorMessage !== null) return showAlert(errorMessage, 'error')
+        if (otp === '') return { isConfirmed: false, message: 'Please enter your confirmation code' };
+        if (Number(otp) != Number(otpFromServer)) return { isConfirmed: false, message: 'Incorrect code entered' };
+    return { isConfirmed: true }
+    }
 
-        try {
-            if (Number(otp) === Number(otpFromServer)) {
-                const response = await Register(newUserData)
-                if (response.code === 201) {
-                    setProcessing(false)
-                    showAlert(response.message, 'success')
-                    setVerified(true)
-                } else if (response.code === 409) {
-                    setProcessing(false)
-                    showAlert(response.message, 'warning')
-                    return router.push('/')
-                } else {
-                    setProcessing(false)
-                    return showAlert(response, 'error')
-                }
-            } else {
-                setProcessing(false)
-                return showAlert('Incorrect code entered', 'error')
-            }
-        } catch (error) {
+    const handleUserRegistration = async (event) => {
+        event.preventDefault();
+
+        const confirmation = handleConfirm();
+        if (!confirmation.isConfirmed) return showAlert(confirmation.message, 'error')
+
+        setProcessing(true)
+        const response = await Register(newUserData);
+
+        if (response.code === 201) {
             setProcessing(false)
-            return showAlert(error.message, 'error')
+            showAlert(response.message, 'success')
+            return setVerified(true)
         }
+        setProcessing(false)
+        showAlert(response.message, 'error')
+        return router.push('/') 
     }
 
     const reRoute = (event) => {
@@ -113,6 +105,7 @@ const Verify = () => {
         localStorage.removeItem('newUserToken')
         return router.push('/')
     }
+
     return (
         <div className="flex flex-col p-10 justify-center items-center sm:shadow-auth-form-shadow-1 w-auto h-auto min-h-[500px] max-h-full rounded-lg">
             <Image src={verifyAccountImage} alt='verify-account-image' width={400} />
@@ -139,9 +132,8 @@ const Verify = () => {
                         }
                     </div>
                 }
-
                 <div className='flex flex-col-reverse gap-2'>
-                    <button type='submit' className="auth-button" style={{ margin: 0 }} onClick={!isVerified ? handleConfirm : reRoute}>{!isVerified && 'Confirm'}{isVerified && 'Go to Login'}{processing && <Loader />}</button>
+                    <button type='submit' className="auth-button" style={{ margin: 0 }} onClick={!isVerified ? handleUserRegistration : reRoute}>{!isVerified && 'Confirm'}{isVerified && 'Go to Login'}{processing && <Loader />}</button>
                     {!isVerified && <button type='' onClick={handleResend} className='my-4 cursor-pointer text-sm hover:text-gray-600'>Resend Code</button>}
                 </div>
             </form >

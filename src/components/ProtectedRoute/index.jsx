@@ -11,7 +11,6 @@ const ProtectedRoute = ({ children }) => {
     if (typeof window !== "undefined") accessToken = localStorage.getItem("token") || "";
     const user = useDecodeToken(accessToken)
     useEffect(() => {
-        //console.log(user)
         if (!user) {
             router.push('/');
         }
