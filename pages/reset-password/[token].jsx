@@ -33,7 +33,7 @@ const Forgot = () => {
     const handlePasswordReset = async (event) => {
         event.preventDefault()
 
-        const errorMessage = validateInput(ResetPasswordSchema, {newPassword, confirmNewPassword})
+        const errorMessage = validateInput(ResetPasswordSchema, { newPassword, confirmNewPassword })
         if (errorMessage !== null) return showAlert(errorMessage, 'error')
 
         if (identityUser === identityUserFromSlug) {
@@ -52,22 +52,24 @@ const Forgot = () => {
     }
 
     return (
-        <div className="flex flex-col p-10 justify-center items-center sm:shadow-auth-form-shadow-1 w-auto min-w-[40%] h-auto min-h-[300px] rounded-lg">
-            <Image src={resetPassword} alt='verify-account-image' width={400} />
-            <h2 className="text-2xl py-1 font-semibold leading-[2] text-[#181818]">Reset Your Password</h2>
-            <p className="w-[75%] text-sm leading-6 text-center tracking-[0.25px] my-4">You can now reset your password by setting a new password below.</p>
+        <div className="flex w-full h-screen justify-center items-center">
+            <div className="flex flex-col p-10 justify-center items-center sm:shadow-auth-form-shadow-1 w-auto min-w-[40%] h-auto min-h-[300px] rounded-lg">
+                <Image src={resetPassword} alt='verify-account-image' width={400} />
+                <h2 className="text-2xl py-1 font-semibold leading-[2] text-[#181818]">Reset Your Password</h2>
+                <p className="w-[75%] text-sm leading-6 text-center tracking-[0.25px] my-4">You can now reset your password by setting a new password below.</p>
 
-            <form className='flex flex-col justify-center items-center'>
-                <div className='relative'>
-                    <input className='form-input' type={viewPassword ? 'text' : 'password'} placeholder='New Password' onChange={(e) => setNewPassword(e.target.value)} />
-                    <span className='absolute top-[40%] right-3 text-base' onClick={() => setViewPassword(prev => !prev)}>{viewPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}</span>
-                </div>
-                <div className='relative'>
-                    <input className='form-input' type={viewPassword ? 'text' : 'password'} placeholder='Confirm Password' onChange={(e) => setConfirmNewPassword(e.target.value)} />
-                    <span className='absolute top-[40%] right-3 text-base' onClick={() => setViewPassword(prev => !prev)}>{viewPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}</span>
-                </div>
-                <button type='submit' className="auth-button" style={{ marginTop: 20 }} onClick={handlePasswordReset} >{processing ? <Loader /> : 'Reset Password'}</button>
-            </form >
+                <form className='flex flex-col justify-center items-center'>
+                    <div className='relative'>
+                        <input className='form-input' type={viewPassword ? 'text' : 'password'} placeholder='New Password' onChange={(e) => setNewPassword(e.target.value)} />
+                        <span className='absolute top-[40%] right-3 text-base' onClick={() => setViewPassword(prev => !prev)}>{viewPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}</span>
+                    </div>
+                    <div className='relative'>
+                        <input className='form-input' type={viewPassword ? 'text' : 'password'} placeholder='Confirm Password' onChange={(e) => setConfirmNewPassword(e.target.value)} />
+                        <span className='absolute top-[40%] right-3 text-base' onClick={() => setViewPassword(prev => !prev)}>{viewPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}</span>
+                    </div>
+                    <button type='submit' className="auth-button" style={{ marginTop: 20 }} onClick={handlePasswordReset} >{processing ? <Loader /> : 'Reset Password'}</button>
+                </form >
+            </div >
         </div >
     );
 };
