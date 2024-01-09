@@ -101,7 +101,7 @@ export default function Home() {
                             <button className="auth-button" onClick={handleSignup}>{processing ? <Loader /> : 'Register'}</button>
                         </form>
                     </div>
-                    <div className={`flex justify-center items-center absolute top-0 w-[600px] h-full p-[25px] bg-[#ecf0f3] transition-all duration-[1250ms] ${isSwitched ? 'z-[200] left-0' : 'z-[0] left-[calc(100%-600px)]'}`}>
+                    <div className={`flex justify-center items-center absolute top-0 w-full md:w-[600px] h-full p-[25px] bg-[#ecf0f3] transition-all duration-[1250ms] ${isSwitched ? 'z-[200] md:left-0' : 'z-[0] md:left-[calc(100%-600px)]'}`}>
                         <form className="flex flex-col justify-center items-center w-full h-full">
                             <Logo width={150} />
                             <h2 className="text-2xl py-4 font-semibold leading-[2] text-[#181818]">Login to Beksfel</h2>
