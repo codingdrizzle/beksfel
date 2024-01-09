@@ -107,6 +107,7 @@ const Verify = () => {
     }
 
     return (
+        <div className="flex w-full h-screen justify-center items-center">
         <div className="flex flex-col p-10 justify-center items-center sm:shadow-auth-form-shadow-1 w-auto h-auto min-h-[500px] max-h-full rounded-lg">
             <Image src={verifyAccountImage} alt='verify-account-image' width={400} />
             <h2 className="text-2xl py-1 font-semibold leading-[2] text-[#181818]">{!isVerified ? 'Verify Your Account' : 'Account Verified'}</h2>
@@ -119,7 +120,7 @@ const Verify = () => {
                         {
                             inputs.map((_, index) => (
                                 <input
-                                    key={index}
+                                key={index}
                                     ref={inputRefs[index]}
                                     type="text"
                                     maxLength={1}
@@ -138,6 +139,7 @@ const Verify = () => {
                 </div>
             </form >
         </div >
+                                    </div>
     );
 };
 
