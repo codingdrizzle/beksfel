@@ -3,9 +3,9 @@ import { FaCaretLeft, FaCaretRight } from "react-icons/fa6";
 import { TbNavigationFilled } from "react-icons/tb";
 import { FaSignOutAlt } from "react-icons/fa";
 import Logo from '../../commons/Logo'
-import { NavItems } from '../../utils/nav-items'
+import { NavItems, Account } from '../../utils/nav-items'
 import { useRouter } from 'next/router';
-import {SideNavCollapse,SideNavCollapseMobile} from './SideNavCollapse'
+import { SideNavCollapse, SideNavCollapseMobile } from './SideNavCollapse'
 
 const SideNav = ({ isSideBarCollapse, setIsSideBarCollapse }) => {
     const [showAssistiveMenuDisabler, setShowAssistiveMenuDisabler] = useState(false)
@@ -23,6 +23,13 @@ const SideNav = ({ isSideBarCollapse, setIsSideBarCollapse }) => {
         setShowAssistiveMenuDisabler(false);
     }
 
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('newUser');
+        return router.push('/')
+    }
+
     useEffect(() => {
         window.addEventListener('resize', () => {
             if (window.matchMedia('(min-width: 768px) and (max-width: 1024px)').matches) return setIsSideBarCollapse(true);
@@ -37,9 +44,9 @@ const SideNav = ({ isSideBarCollapse, setIsSideBarCollapse }) => {
                     <Logo />
                 </div>
                 <SideNavCollapse title={'Navigations'} isSideBarCollapse={isSideBarCollapse} dataSource={NavItems} />
-                <SideNavCollapse title={'Apps'} isSideBarCollapse={isSideBarCollapse} dataSource={NavItems} />
+                <SideNavCollapse title={'Account'} isSideBarCollapse={isSideBarCollapse} dataSource={Account} />
 
-                <button className='absolute bottom-0 p-7 flex justify-start items-center text-xl space-x-2 hover:text-blue-400'>
+                <button className='absolute bottom-0 p-7 flex justify-start items-center text-xl space-x-2 hover:text-blue-400' onClick={handleLogout}>
                     <FaSignOutAlt />
                     {!isSideBarCollapse && <span className='text-base'>Logout</span>}
                 </button>
@@ -57,7 +64,7 @@ const SideNav = ({ isSideBarCollapse, setIsSideBarCollapse }) => {
             <button id='myDiv' className='fixed bottom-10 right-10 bg-red-400 w-16 h-16 cursor-pointer rounded-full flex justify-center items-center md:hidden z-[70]' onClick={activeAssistiveMenu}>
                 {
                     showAssistiveMenuDisabler ?
-                        <SideNavCollapseMobile dataSources={[NavItems, NavItems]}/> :
+                        <SideNavCollapseMobile dataSources={[NavItems, NavItems]} /> :
                         <TbNavigationFilled size={40} color='#fff' />
                 }
             </button>
