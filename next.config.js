@@ -4,6 +4,11 @@ const path = require('path');
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
+    images: {
+        domains: [
+            "images.unsplash.com"
+        ],
+    },
     reactStrictMode: true,
     webpack: (config) => {
         config.resolve.alias['@'] = path.resolve(__dirname, 'src');

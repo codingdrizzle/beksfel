@@ -1,5 +1,7 @@
+import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react'
+import {authUser} from '../../store'
 
 export const SideNavCollapse = ({ title, isSideBarCollapse, dataSource }) => {
     const router = useRouter()
@@ -10,7 +12,6 @@ export const SideNavCollapse = ({ title, isSideBarCollapse, dataSource }) => {
         setActiveSubMenu(activeSubMenu === index ? null : index);
     };
 
-
     const handleNavigate = (index, route = '', hasSubItems = false, isSubItem = false) => {
         !isSubItem && toggleSubItems(index);
         if (index) setShowCollapsedDropdown(prev => !prev)
@@ -19,8 +20,10 @@ export const SideNavCollapse = ({ title, isSideBarCollapse, dataSource }) => {
         if (!hasSubItems) return router.push(route)
     }
 
+
+    const user = useAtomValue(authUser);
     return (
-        <div className={`w-full h-auto border-b-[1px] border-[#ecf0f3] flex justify-center flex-col space-y-2 py-4 ${isSideBarCollapse ? '' : 'px-7'}`}>
+        <div className={`w-full h-auto border-b-[1px] border-[#ecf0f3] flex justify-center flex-col space-y-2 py-4 ${isSideBarCollapse ? '' : 'px-3'}`}>
             {!isSideBarCollapse && <p className='uppercase font-semibold'>{title}</p>}
             {
                 dataSource.map((item, index) => {
@@ -29,7 +32,7 @@ export const SideNavCollapse = ({ title, isSideBarCollapse, dataSource }) => {
                             {item.subItems ? (
                                 <div className='group relative'>
                                     <button
-                                        className={`flex items-center space-x-2 text-xl h-12 w-full hover:text-blue-400 ${isSideBarCollapse ? 'justify-center' : ''}`}
+                                        className={`flex items-center space-x-2 text-xl h-12 w-full hover:text-blue-400 px-5 rounded-lg ${isSideBarCollapse ? 'justify-center' : ''}  ${router.pathname === item.subItems.route ? 'bg-blue-100 text-blue-400' : ''}`}
                                         onClick={() => handleNavigate(index)}
                                     >
                                         {item.icon} {!isSideBarCollapse && <span className='text-base'>{item.name}</span>}
@@ -54,15 +57,18 @@ export const SideNavCollapse = ({ title, isSideBarCollapse, dataSource }) => {
                                 </div>
                             ) : (
                                 <div className='group relative'>
-                                    <button
-                                        className={`flex items-center space-x-2 text-xl h-12 w-full hover:text-blue-400 ${isSideBarCollapse ? 'justify-center' : ''}`}
-                                        onClick={() => handleNavigate(index, item.route)}
-                                    >
-                                        {item.icon} {!isSideBarCollapse && <span className='text-base'>{item.name}</span>}
-                                    </button>
-                                    <div className={`${isSideBarCollapse ? 'hidden group-hover:flex absolute left-[70px] w-24 h-12 bg-white top-0 justify-start items-center' : 'hidden'}`}>
+                                    {
+                                            item.permissions.includes(user.role) &&
+                                        <button
+                                            className={`flex items-center space-x-3 text-xl h-12 w-full hover:text-blue-400 px-5 rounded-lg ${isSideBarCollapse ? 'justify-center w-[90%] mx-auto' : ''} ${router.pathname === item.route ? 'bg-blue-100 text-blue-400' : ''}`}
+                                            onClick={() => router.push(item.route)}
+                                        >
+                                            {item.icon} {!isSideBarCollapse && <span className='text-base'>{item.name}</span>}
+                                        </button>
+                                    }
+                                    {/*<div className={`${isSideBarCollapse ? 'hidden group-hover:flex absolute left-[70px] w-24 h-12 bg-white top-0 justify-start items-center' : 'hidden'}`}>
                                         <span onClick={() => handleNavigate(index)} className='cursor-pointer'>{item.name}</span>
-                                    </div>
+                                    </div>*/}
                                 </div>
                             )}
                             {item.subItems && activeSubMenu === index && (
