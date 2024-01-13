@@ -69,7 +69,7 @@ const EditProfile = () => {
         onSubmit={UpdateProfile}
         className="flex flex-col justify-center items-center"
       >
-        <h1 className="text-black uppercase text-sm mt-4">Edit Your Profile</h1>
+        <h1 className="text-black uppercase text-sm mt-4 mb-2">Edit Your Profile</h1>
 
         <div
           onClick={handleImageUpload}
