@@ -59,3 +59,27 @@ export const ResetPasswordLink = async (email, password) => {
         return { message: error.data.message }
     }
 }
+
+export const FindAllInvoices = async () => {
+    try {
+        const response = await API.get('/invoices')
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        return { message: error.data.message }
+    }
+}
+
+export const FindAllInvoicesByUser = async (created_by) => {
+    try {
+        const response = await API.post(`/invoices`, {created_by})
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        return { message: error.data.message }
+    }
+}
