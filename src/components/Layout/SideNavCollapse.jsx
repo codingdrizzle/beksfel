@@ -32,7 +32,7 @@ export const SideNavCollapse = ({ title, isSideBarCollapse, dataSource }) => {
                             {item.subItems ? (
                                 <div className='group relative'>
                                     <button
-                                        className={`flex items-center space-x-2 text-xl h-12 w-full hover:text-blue-400 px-5 rounded-lg ${isSideBarCollapse ? 'justify-center' : ''}  ${router.pathname === item.subItems.route ? 'bg-blue-100 text-blue-400' : ''}`}
+                                        className={`flex items-center space-x-2 text-xl h-12 w-full hover:text-blue-400 px-5 rounded-lg ${isSideBarCollapse ? 'justify-center' : ''}  ${router.pathname.includes(item.subItems.route) ? 'bg-blue-100 text-blue-400' : ''}`}
                                         onClick={() => handleNavigate(index)}
                                     >
                                         {item.icon} {!isSideBarCollapse && <span className='text-base'>{item.name}</span>}
@@ -60,7 +60,7 @@ export const SideNavCollapse = ({ title, isSideBarCollapse, dataSource }) => {
                                     {
                                             item.permissions.includes(user.role) &&
                                         <button
-                                            className={`flex items-center space-x-3 text-xl h-12 w-full hover:text-blue-400 px-5 rounded-lg ${isSideBarCollapse ? 'justify-center w-[90%] mx-auto' : ''} ${router.pathname === item.route ? 'bg-blue-100 text-blue-400' : ''}`}
+                                                    className={`flex items-center space-x-3 text-xl h-12 w-full hover:text-blue-400 px-5 rounded-lg ${isSideBarCollapse ? 'justify-center w-[90%] mx-auto' : ''} ${router.pathname.includes(item.route) ? 'bg-blue-100 text-blue-400' : ''}`}
                                             onClick={() => router.push(item.route)}
                                         >
                                             {item.icon} {!isSideBarCollapse && <span className='text-base'>{item.name}</span>}
