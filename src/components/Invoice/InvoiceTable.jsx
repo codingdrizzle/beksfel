@@ -21,7 +21,7 @@ const InvoiceTable = (props) => {
                     {
                         props.invoices.map((item, index) => {
                             return (
-                                <InvoiceTableRow key={index}  rowData={item} viewMode={true} onView={() => handleInvoiceView(index)}/>
+                                <InvoiceTableRow key={index} index={index}  rowData={item} viewMode={true} onView={() => handleInvoiceView(index)}/>
                             )
                         })
                     }
