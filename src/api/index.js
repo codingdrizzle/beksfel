@@ -74,7 +74,7 @@ export const FindAllInvoices = async () => {
 
 export const FindAllInvoicesByUser = async (created_by) => {
     try {
-        const response = await API.post(`/invoices`, {created_by})
+        const response = await API.post(`/invoices`,{created_by})
         return response.data
     } catch (error) {
         if (error === undefined) {

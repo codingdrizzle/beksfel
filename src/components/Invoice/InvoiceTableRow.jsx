@@ -4,7 +4,7 @@ import { MdOutlineDelete } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
 
 const InvoiceTableRow = (props) => {
-    const {rowData, onView, viewMode, editMode, key} = props;
+    const {rowData, onView, viewMode, editMode, index} = props;
   return (
       <div className='w-full bg-white dark:bg-transparent grid grid-cols-6 gap-10 py-4 px-10 dark:text-gray-400 font-light hover:bg-blue-50 dark:hover:bg-darkTheme1' style={{ transition: 'all 0.5s ease' }}>
           <div className="flex items-center justify-start">
@@ -25,7 +25,7 @@ const InvoiceTableRow = (props) => {
               </span>
           </div>
           <div className="flex items-center justify-start">
-              {viewMode && <button className='w-14 h-10 rounded-md flex justify-center items-center bg-green-500 text-white text-base cursor-pointer' onClick={() => onView(key)}>
+              {viewMode && <button className='w-14 h-10 rounded-md flex justify-center items-center bg-green-500 text-white text-base cursor-pointer' onClick={() => onView(index)}>
                   View
               </button>}
               {
