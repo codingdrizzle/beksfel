@@ -11,15 +11,19 @@ import { useAtomValue } from 'jotai'
 import { authUser } from '../../src/store'
 import MyInvoices from '../../src/components/Invoice/MyInvoices'
 
-const Invoice = () => {
-    const [tab, setTab] = useState('All Invoices')
-    const [invoices, setInvoices] = useState([])
-    const [noSearchResults, setNoSearchResults] = useState([])
+const Invoice = ({ children }) => {
+    const user = useAtomValue(authUser)
     const router = useRouter();
 
-    const user = useAtomValue(authUser)._id
+    useEffect(() => {
+        (() => {
+            if(user.role === 'user') router.push('/invoice/me');
+            else router.push('/invoice/all')
+        })()
+    },[router, user.role])
 
-    const { showAlert } = useAlert();
+    const [invoices, setInvoices] = useState([])
+    const [noSearchResults, setNoSearchResults] = useState([])
 
     const searchFilter = (searchValue, arr) => {
         let searchBy = searchValue.split(" ");
@@ -53,27 +57,30 @@ const Invoice = () => {
         }
     }
 
-    useEffect(() => {
-        (async () => {
-            let response;
-            switch (tab) {
-                case 'All Invoices':
-                    response = await FindAllInvoices()
 
-                    if (response.code === 200) return setInvoices([...response.data]);
-                    showAlert(response.message, 'error');
-                    break;
 
-                case 'My Invoices':
-                    response = await FindAllInvoicesByUser(user)
-                    if (response.code === 200) return setInvoices([...response.data])
-                    showAlert(response.message, 'error');
-                    break;
-
-                default: return;
-            }
-        })()
-    }, [tab])
+    const tabsForUser = [
+        {
+            title: 'My Invoices',
+            route: '/invoice/me'
+        }, {
+            title: 'Drafts',
+            route: '/invoice/drafts'
+        }
+    ]
+    const tabsForAdmins = [
+        {
+            title: 'All Invoices',
+            route: '/invoice/all'
+        },
+        {
+            title: 'My Invoices',
+            route: '/invoice/me'
+        }, {
+            title: 'Drafts',
+            route: '/invoice/drafts'
+        }
+    ]
 
 
     return (
@@ -83,9 +90,8 @@ const Invoice = () => {
                     <SearchBar handleSearch={handleSearch} />
                     <Button onClick={() => router.push('/invoice/create')}>Create Invoice</Button>
                 </div>
-                <Tabs tabs={['All Invoices', 'My Invoices', 'Drafts']} getTab={setTab} />
-                {tab === 'All Invoices' && <Invoices data={invoices} />}
-                {tab === 'My Invoices' && <MyInvoices data={invoices} />}
+                <Tabs tabs={user.role === 'user' ? tabsForUser : tabsForAdmins} />
+                {children}
             </div>
         </Layout>
     )
