@@ -5,32 +5,37 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { invoiceInfo, invoiceInitialInfo } from '../../store'
 import { Button } from '../Button';
 import Modal from '../Modal'
+import DatePicker from 'react-datepicker'
 
 const InvoiceInfo = () => {
     const [info, setInfo] = useAtom(invoiceInfo)
     const [showModal, setShowModal] = useState(false)
+    const [startDate, setStartDate] = useState(new Date());
 
     const generateInvoiceNumber = () => Math.floor(10000 + Math.random() * 90000);
+    
     useEffect(() => {
-        setInfo(prev => ({ ...prev, invoice_number: generateInvoiceNumber(), date: new Date().toISOString() }));
-    }, []);
+        setInfo(prev => ({ ...prev, invoice_number: generateInvoiceNumber(), date: new Date().toISOString().split('T')[0] }));
+    }, [setInfo]);
     
     const handleEditInvoiceInfo = () => {
         setShowModal(true);
     }
     
     const handleModalClose = () => {
-        setInfo(prev => ({ ...prev, invoice_number: generateInvoiceNumber(), date: new Date().toISOString() }));
+        //setInfo(prev => ({ ...prev, invoice_number: generateInvoiceNumber(), date: new Date().toISOString() }));
         setShowModal(false);
     }
+
+    console.log(info.date)
 
     return (
         <>
             <div className='flex justify-between items-center'>
                 <h2 className='text-xl font-bold my-2 ml-1'>Invoice details</h2>
                 <Button onClick={handleEditInvoiceInfo}>
+                    <BiEdit size={20} />
                     <span>Edit</span>
-                    <BiEdit />
                 </Button>
             </div>
             <div className='w-full h-auto rounded-lg shadow-md bg-white p-6 mb-5'>
@@ -65,23 +70,24 @@ const InvoiceInfo = () => {
                 <form className='grid grid-flow-dense grid-cols-6 gap-4 md:gap-7'>
                     <div className='col-span-6 md:col-span-3'>
                         <p className='flex items-center justify-between space-x-1'><span>Invoice number</span><span className='text-xs text-red-400 flex items-center'><HiOutlineExclamationCircle size={15} /> <span>readonly</span></span></p>
-                        <input className="w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]" type="text" value={info.invoice_number} disabled />
+                        <input className="w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]" type="text" defaultValue={info.invoice_number} disabled />
                     </div>
                     <div className='col-span-6 md:col-span-3'>
-                        <p className='flex items-center justify-between space-x-1'><span>Date</span><span className='text-xs text-red-400 flex items-center'><HiOutlineExclamationCircle size={15} /> <span>readonly</span></span></p>
-                        <input className="w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]" type="text" value={info.date?.split('T')[0]} disabled />
+                        <p className='flex items-center justify-between space-x-1'>Date</p>
+                        {/*<input className="" type="text" defaultValue={info.date?.split('T')[0]} />*/}
+                        <DatePicker className='w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]' showIcon selected={''} onChange={(e) => setInfo(prev => ({...prev, date: e.target.value}))} />
                     </div>
                     <div className='col-span-6 md:col-span-3'>
                         <p>Project name</p>
-                        <input className="w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]" type="text" value={info.project_name} onChange={(e) => setInfo(prev => ({ ...prev, project_name: e.target.value }))} />
+                        <input className="w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]" type="text" defaultValue={info.project_name} onChange={(e) => setInfo(prev => ({ ...prev, project_name: e.target.value }))} />
                     </div>
                     <div className='col-span-6 md:col-span-3'>
                         <p>Project location</p>
-                        <input className="w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]" type="text" value={info.project_location} onChange={(e) => setInfo(prev => ({ ...prev, project_location: e.target.value }))} />
+                        <input className="w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]" type="text" defaultValue={info.project_location} onChange={(e) => setInfo(prev => ({ ...prev, project_location: e.target.value }))} />
                     </div>
                     <div className='col-span-6 md:col-span-3'>
                         <p>Invoice by</p>
-                        <input className="w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]" type="text" value={info.invoice_by} onChange={(e) => setInfo(prev => ({ ...prev, invoice_by: e.target.value }))} />
+                        <input className="w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]" type="text" defaultValue={info.invoice_by} onChange={(e) => setInfo(prev => ({ ...prev, invoice_by: e.target.value }))} />
                     </div>
                 </form>
                 <button onClick={() => setShowModal(false)} className='bg-green-500 text-white text-base w-full p-2 mt-4 rounded-lg'>

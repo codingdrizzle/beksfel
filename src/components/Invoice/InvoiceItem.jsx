@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { BiEdit } from "react-icons/bi";
 import { MdOutlineDelete } from "react-icons/md";
 import { FaSave } from "react-icons/fa";
 import { useAtom } from 'jotai';
 import { invoiceItems } from '../../store';
-import { Button } from '../Button';
 
 const InvoiceItem = (props) => {
     const { item, index, viewMode } = props;
@@ -14,13 +13,13 @@ const InvoiceItem = (props) => {
     const [isEditMode, setIsEditMode] = useState(viewMode);
     const [isLastItem, setIsLastItem] = useState(index === (items.length - 1));
 
-    const handleFieldChange = (field, value) => {
+    const handleFieldChange = useCallback((field, value) => {
         setItems((prev) =>
             prev.map((item, key) =>
                 index === key ? { ...item, [field]: value } : item
             )
         );
-    };
+    }, [index, setItems]);
 
     const handleRemoveItem = () => {
         if (items.length >= 2) {
@@ -32,6 +31,9 @@ const InvoiceItem = (props) => {
         setIsEditMode((prev) => items.length !== prev);
     }, [items.length]);
 
+    useEffect(() => {
+        handleFieldChange('amount', Number(item.rate) * Number(item.quantity))
+    }, [handleFieldChange, item.rate, item.quantity])
 
     return (
         <div className='w-full bg-white grid grid-flow-col-dense grid-cols-13 gap-10 py-4 px-10 font-light' style={{ transition: 'all 0.5s ease' }}>
@@ -39,19 +41,19 @@ const InvoiceItem = (props) => {
                 <span>{'0' + (index + 1)}</span>
             </div>
             <div className="col-span-2 flex items-center justify-start">
-                <input type='text' disabled={!isLastItem ? !isLastItem : isEditMode} value={item.description} placeholder='Item description' className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' onChange={(e) => handleFieldChange('description', e.target.value)} />
+                <input type='text' disabled={!isLastItem ? !isLastItem : isEditMode} defaultValue={item.description} placeholder='Item description' className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' onChange={(e) => handleFieldChange('description', e.target.value)} />
             </div>
             <div className="col-span-2 flex items-center justify-start">
-                <input type='text' disabled={!isLastItem ? !isLastItem : isEditMode} value={item.quantity} placeholder='Item quantity' className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' onChange={(e) => handleFieldChange('quantity', e.target.value)} />
+                <input type='text' disabled={!isLastItem ? !isLastItem : isEditMode} defaultValue={item.quantity} placeholder='Item quantity' className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' onChange={(e) => handleFieldChange('quantity', e.target.value)} />
             </div>
             <div className="col-span-2 flex items-center justify-start">
-                <input type='text' disabled={!isLastItem ? !isLastItem : isEditMode} value={item.unit} placeholder='Item unit' className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' onChange={(e) => handleFieldChange('unit', e.target.value)} />
+                <input type='text' disabled={!isLastItem ? !isLastItem : isEditMode} defaultValue={item.unit} placeholder='Item unit' className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' onChange={(e) => handleFieldChange('unit', e.target.value)} />
             </div>
             <div className="col-span-2 flex items-center justify-start">
-                <input type='text' disabled={!isLastItem ? !isLastItem : isEditMode} value={item.rate} placeholder='Price rate' className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' onChange={(e) => handleFieldChange('rate', e.target.value)} />
+                <input type='text' disabled={!isLastItem ? !isLastItem : isEditMode} defaultValue={item.rate} placeholder='Price rate' className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' onChange={(e) => handleFieldChange('rate', e.target.value)} />
             </div>
             <div className="col-span-2 flex items-center justify-start">
-                <input type='text' disabled value={Number(item.rate) * Number(item.quantity)} placeholder='Price rate' className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' />
+                <input type='text' disabled defaultValue={isNaN(item.amount) ? 0 : item.amount} className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' />
             </div>
             <div className="col-span-2 flex items-center justify-start space-x-3">
                 {(!isLastItem ? !isLastItem : isEditMode) ?

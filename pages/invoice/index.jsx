@@ -3,7 +3,7 @@ import Layout from '../../src/components/Layout'
 import Tabs from '../../src/components/Tabs'
 import Invoices from '../../src/components/Invoice/Invoices'
 import SearchBar from '../../src/components/SearchBar'
-import { Button } from '../../src/components/Button'
+import { Button, ButtonOutline } from '../../src/components/Button'
 import { useRouter } from 'next/router'
 import { FindAllInvoices, FindAllInvoicesByUser } from '../../src/api'
 import { useAlert } from '../../src/hooks/useCustomAlert'
@@ -14,13 +14,6 @@ import MyInvoices from '../../src/components/Invoice/MyInvoices'
 const Invoice = ({ children }) => {
     const user = useAtomValue(authUser)
     const router = useRouter();
-
-    useEffect(() => {
-        (() => {
-            if(user.role === 'user') router.push('/invoice/me');
-            else router.push('/invoice/all')
-        })()
-    },[router, user.role])
 
     const [invoices, setInvoices] = useState([])
     const [noSearchResults, setNoSearchResults] = useState([])
@@ -88,7 +81,7 @@ const Invoice = ({ children }) => {
             <div className='flex flex-col'>
                 <div className='w-full flex justify-between items-center my-7'>
                     <SearchBar handleSearch={handleSearch} />
-                    <Button onClick={() => router.push('/invoice/create')}>Create Invoice</Button>
+                    <Button theme={'red'} onClick={() => router.push('/invoice/create')}>Create Invoice</Button>
                 </div>
                 <Tabs tabs={user.role === 'user' ? tabsForUser : tabsForAdmins} />
                 {children}
