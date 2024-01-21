@@ -111,6 +111,18 @@ export const ResetPasswordSchema = Joi.object({
         }),
 })
 
+export const EditProfileSchema = Joi.object({
+    firstname: Joi.string().required(),
+    surname: Joi.string().required(),
+    email: Joi.string()
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'org'] } })
+        .required()
+        .messages({
+            'string.email': 'Email must be a valid email address',
+            'string.empty': 'Email is required',
+            'any.required': 'Email is required',
+        }),
+})
 
 export const InvoiceSchema = Joi.object({
     invoice_number: Joi.number().required(),
