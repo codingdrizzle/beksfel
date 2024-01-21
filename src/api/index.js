@@ -60,6 +60,19 @@ export const ResetPasswordLink = async (email, password) => {
     }
 }
 
+export const EditUserProfile = async (id, data) => {
+    try {
+        const response = await API.put(`/user/${id}`, data)
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        return { message: error.data.message }
+    }
+}
+        
+        
 export const FindAllInvoices = async () => {
     try {
         const response = await API.get('/invoices')
