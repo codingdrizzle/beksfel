@@ -2,11 +2,24 @@ import axios from "axios";
 import Image from "next/image";
 import React, { useState, useRef } from "react";
 import { BsPencil } from "react-icons/bs";
+import FaUserAlt from "react-icons/fa";
+import Layout from "../src/components/Layout";
 
 const EditProfile = () => {
   const InputRef = useRef(null);
 
-  const [image, setImage] = useState(" ");
+  // ------changes
+  const [imgUrl, setImgUrl] = useState("");
+
+  const handleFileInput = () => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImgUrl(reader.result);
+    };
+    reader.readAsDataURL(document.getElementById("file_input").files[0]);
+  };
+
+  // ----------changes
 
   const [userData, setuserData] = useState({
     firstName: "",
@@ -32,12 +45,17 @@ const EditProfile = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     console.log(file, file.name, file.lastModifiedDate);
-    setImage((e.target.files[0]));
+    setImage(e.target.files[0]);
 
     // Check if a file is selected
     if (file) {
       // Check if the file type is either PNG or JPEG
-      if (file.type === "image/png" || file.type === "image/jpeg") {
+      if (
+        file.type === "image/png" ||
+        file.type === "image/jpeg " ||
+        file.type === "image/svg" ||
+        file.type === "image/gif "
+      ) {
         setImage(file);
         console.log("uploaded successfully");
       } else {
@@ -64,30 +82,45 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="">
+    <Layout>
       <form
         onSubmit={UpdateProfile}
         className="flex flex-col justify-center items-center"
       >
-        <h1 className="text-black uppercase text-sm mt-4 mb-2">Edit Your Profile</h1>
+        <h1 className="text-black uppercase text-sm mt-4 mb-2">
+          Edit Your Profile
+        </h1>
 
-        <div
-          onClick={handleImageUpload}
-          className="relative w-24 h-24 rounded-full size-[120px] border-2 border-[#cccccc] p-1 m-2"
-        >
-          <label className=" flex text-center  p-2 capitalize">
-            profile picture
-          </label>
-          {/* <Image src={''} alt='profile' /> */}
-          <BsPencil size={20} className="absolute right-0  bottom-0" />
-          <input
-            className="form-input"
-            type="file"
-            ref={InputRef}
-            onChange={handleImageChange}
-            style={{ display: "none" }}
-          />
+        <div className='w-full flex items-center space-x-6 px-5 py-4'>
+        
+           <Image src={"https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D" } alt="" width={150} height={150} className=' rounded-full' /> : <FaUserAlt className='w-20 h-20' />
+        
+        <div className="flex flex-col space-y-1">
+            <input id="file_input" type="file" accept='image.*' hidden onChange={handleFileInput} />
+            <label className="text-sm font-medium cursor-pointer text-gray-900 px-3 py-2 rounded-lg" htmlFor="file_input">Choose File</label>
+            <label className="text-sm font-medium" htmlFor="file_input">No file chosen</label>
         </div>
+    </div>
+       
+          <div className="flex flex-col space-y-1">
+            <input
+              id="file_input"
+              type="file"
+              accept="image.*"
+              hidden
+              onChange={handleFileInput}
+            />
+            <label
+              className="text-sm font-medium cursor-pointer text-gray-900 px-3 py-2 rounded-lg"
+              htmlFor="file_input"
+            >
+              Choose File
+            </label>
+            <label className="text-sm font-medium" htmlFor="file_input">
+              No file chosen
+            </label>
+          </div>
+      
 
         <div className="flex flex-col space-x-2 ">
           <div className="flex flex-col">
@@ -151,7 +184,7 @@ const EditProfile = () => {
           Save changes
         </button>
       </form>
-    </div>
+    </Layout>
   );
 };
 
