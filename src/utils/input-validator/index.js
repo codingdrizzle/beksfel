@@ -150,4 +150,5 @@ export const InvoiceSchema = Joi.object({
     }),
     invoice_by: Joi.string().required(),
     approved_by: Joi.string(),
+    created_by: Joi.string(),
 });
