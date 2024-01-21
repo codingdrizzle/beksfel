@@ -83,3 +83,17 @@ export const FindAllInvoicesByUser = async (created_by) => {
         return { message: error.data.message }
     }
 }
+
+export const CreateNewInvoice = async (invoice) => {
+    try {
+        const response = await API.post(`/invoice/new`,invoice)
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        console.log(error)
+        if (error.data.message) return { message: error.data.message }
+        else return { message: error.data?.error?.message }
+    }
+}

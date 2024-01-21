@@ -12,7 +12,6 @@ const InvoiceItemsTable = (props) => {
             <h2 className='text-xl font-bold my-2 ml-1'>Invoice items</h2>
             <div className='overflow-x-auto'>
                 <div className='min-w-full w-max'>
-
                     <ItemsHeader />
                     {
                         items.map((item, index) => {
@@ -21,6 +20,7 @@ const InvoiceItemsTable = (props) => {
                             )
                         }).reverse()
                     }
+            {props.children}
                 </div>
             </div>
         </>

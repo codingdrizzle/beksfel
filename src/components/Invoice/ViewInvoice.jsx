@@ -6,17 +6,6 @@ import { FaUser } from "react-icons/fa";
 import { Button } from '../Button';
 
 const ViewInvoice = ({ info, closeModal }) => {
-    const [total, setTotal] = useState(0)
-    useEffect(() => {
-        const gross = info?.items?.reduce((acc, item) => {
-            const amount = parseFloat(item.amount) || 0;
-            const rate = parseFloat(item.rate) || 0;
-
-            return acc + amount * rate;
-        }, 0);
-        setTotal(gross)
-    }, [info?.items])
-
     return (
         <div className='my-10'>
             <h2 className='text-3xl font-bold mb-5'>Invoice details</h2>
@@ -103,11 +92,10 @@ const ViewInvoice = ({ info, closeModal }) => {
                 })
             }
             <div className='grid grid-cols-2 w-full px-10 items-center border-y-2 p-2'>
-                {/* Your other content */}
                 <strong>Total</strong>
                 <div className='flex items-center justify-end'>
                     <strong className='flex items-center min-w-[120px] max-w-max'>
-                        {total}
+                        {info?.total}
                     </strong>
                 </div>
             </div>
@@ -121,7 +109,7 @@ const ViewInvoice = ({ info, closeModal }) => {
                 <div>
                     <strong>Approved by</strong>
                     <span className='flex justify-start items-center space-x-1'>
-                        <FaUser /> <span>{info?.approved_by}</span>
+                        <FaUser /> <span>{info?.approved_by || 'N/A'}</span>
                     </span>
                 </div>
             </div>

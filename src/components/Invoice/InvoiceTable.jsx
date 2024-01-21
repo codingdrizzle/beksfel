@@ -9,7 +9,6 @@ const InvoiceTable = (props) => {
     const [invoiceIndex, setInvoiceIndex] = useState(null);
 
     const handleInvoiceView = (index) => {
-        console.log(props.invoices[index])
         setInvoiceIndex(index)
         setInvoiceView(prev => !prev)
     }
@@ -17,19 +16,18 @@ const InvoiceTable = (props) => {
         <>
             <div className='overflow-x-auto'>
                 <div className='min-w-full w-max'>
-                <TableHeader />
+                    <TableHeader />
                     {
                         props.invoices.map((item, index) => {
                             return (
-                                <InvoiceTableRow key={index} index={index}  rowData={item} viewMode={true} onView={() => handleInvoiceView(index)}/>
+                                <InvoiceTableRow key={index} index={index} rowData={item} viewMode={true} onView={() => handleInvoiceView(index)} />
                             )
                         })
                     }
                 </div>
             </div>
             <Modal isOpen={invoiceView} onClose={() => setInvoiceView(prev => !prev)}>
-
-            <ViewInvoice info={props.invoices[invoiceIndex]} closeModal={() => setInvoiceView(prev => !prev)}/>
+                <ViewInvoice info={props.invoices[invoiceIndex]} closeModal={() => setInvoiceView(prev => !prev)} />
             </Modal>
         </>
     )
