@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Layout from "../src/components/Layout"
 
 const DeleteAccount = () => {
   const [confirmation, setConfirmation] = useState("");
@@ -21,6 +22,8 @@ const DeleteAccount = () => {
   };
 
   return (
+    <Layout> 
+    
     <div className="flex flex-col items-center m-4 pt-10">
       <h2 className=" uppercase">Delete Account</h2>
       <p>
@@ -40,6 +43,7 @@ const DeleteAccount = () => {
         {isDeleting ? "Deleting..." : "Delete Account"}
       </button>
     </div>
+    </Layout>
   );
 };
 
