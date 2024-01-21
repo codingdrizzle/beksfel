@@ -1,5 +1,6 @@
 import { Provider } from 'jotai';
 import '../styles/globals.css';
+import "react-datepicker/dist/react-datepicker.css";
 import { store } from '../src/store';
 import {AlertProvider} from '../src/hooks/useCustomAlert'
 import Alert from '../src/components/Alert';

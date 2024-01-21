@@ -123,3 +123,44 @@ export const EditProfileSchema = Joi.object({
             'any.required': 'Email is required',
         }),
 })
+
+export const InvoiceSchema = Joi.object({
+    invoice_number: Joi.number().required(),
+    project_name: Joi.string().required(),
+    project_location: Joi.string().required(),
+    date: Joi.date().required(),
+    status: Joi.string().valid('pending', 'approved', 'rejected').default('pending'),
+    items: Joi.array().items(Joi.object({
+        description: Joi.string().required().messages({
+            'string.empty': 'Description must not be empty',
+            'string.base': 'Description must be alphanumeric',
+        }),
+        quantity: Joi.number().invalid(0).required().messages({
+            'any.required': 'Quantity must not be empty',
+            'number.base': 'Quantity must be a number',
+            'any.invalid': 'Quantity cannot be zero',
+        }),
+        unit: Joi.string().required().messages({
+            'string.empty': 'Unit must not be empty',
+            'string.base': 'Unit must include alphabets',
+        }),
+        rate: Joi.number().invalid(0).required().messages({
+            'any.required': 'Rate must not be empty',
+            'number.base': 'Rate must be a number',
+            'any.invalid': 'Rate cannot be zero',
+        }),
+        amount: Joi.number().invalid(0).required().messages({
+            'any.required': 'Amount must not be empty',
+            'number.base': 'Amount must be a number',
+            'any.invalid': 'Amount cannot be zero',
+        }),
+    })).required(),
+    total: Joi.number().invalid(0).required().messages({
+        'any.required': 'Total must not be empty',
+        'number.base': 'Total must be a number',
+        'any.invalid': 'Total cannot be zero',
+    }),
+    invoice_by: Joi.string().required(),
+    approved_by: Joi.string(),
+    created_by: Joi.string(),
+});

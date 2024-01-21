@@ -4,6 +4,9 @@ import { BsGridFill } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 
+let user
+if (typeof window !== "undefined") user = JSON.parse(localStorage.getItem('user'));
+
 export const NavItems = [
     {
         name: 'Dashboard',
@@ -13,39 +16,15 @@ export const NavItems = [
     },
     {
         name: 'Invoice',
-        route: '/invoice',
+        route: user?.role === 'user' ? '/invoice/me': '/invoice/all',
         icon: <FaFileInvoiceDollar />,
         permissions: ['user', 'accountant', 'manager'],
-        //subItems: [
-        //    {
-        //        name: 'All Invoices',
-        //        route: '/invoice/all',
-        //        icon: <FaFileInvoice />
-        //    },
-        //    {
-        //        name: 'My Invoices',
-        //        route: '/invoice',
-        //        icon: <FaMoneyCheckDollar />
-        //    },
-        //    {
-        //        name: 'Actions',
-        //        route: '/invoice/actions',
-        //        icon: <AiFillThunderbolt />
-        //    },
-        //]
     },
     {
         name: 'Payments Voucher',
         route: '/payments',
         icon: <FaHandHoldingUsd />,
         permissions: ['accountant', 'manager']
-        //subItems: [
-        //    {
-        //        name: 'Vouchers',
-        //        route: '/payment/vouchers',
-        //        icon: <FaFileInvoice />
-        //    }
-        //]
     },
 
 ]

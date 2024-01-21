@@ -60,7 +60,6 @@ export const ResetPasswordLink = async (email, password) => {
     }
 }
 
-
 export const EditUserProfile = async (id, data) => {
     try {
         const response = await API.put(`/user/${id}`, data)
@@ -70,5 +69,44 @@ export const EditUserProfile = async (id, data) => {
             return { message: 'Check your internet connection and try again.', type: 'failure' }
         }
         return { message: error.data.message }
+    }
+}
+        
+        
+export const FindAllInvoices = async () => {
+    try {
+        const response = await API.get('/invoices')
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        return { message: error.data.message }
+    }
+}
+
+export const FindAllInvoicesByUser = async (created_by) => {
+    try {
+        const response = await API.post(`/invoices`,{created_by})
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        return { message: error.data.message }
+    }
+}
+
+export const CreateNewInvoice = async (invoice) => {
+    try {
+        const response = await API.post(`/invoice/new`,invoice)
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        console.log(error)
+        if (error.data.message) return { message: error.data.message }
+        else return { message: error.data?.error?.message }
     }
 }
