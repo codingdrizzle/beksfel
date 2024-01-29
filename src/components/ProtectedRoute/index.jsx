@@ -1,22 +1,21 @@
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-//import { useAtomValue } from 'jotai';
-//import { token } from '../../store';
-import useDecodeToken from '../../hooks/useDecodeToken';
+import { useRouter } from 'next/router';
+import { useAtom } from 'jotai';
+import { authUser, token } from '../../store';
 
 const ProtectedRoute = ({ children }) => {
     const router = useRouter();
+    const access_token = useAtom(token);
+    const user = useAtom(authUser);
 
-    let accessToken
-    if (typeof window !== "undefined") accessToken = localStorage.getItem("token") || "";
-    const user = useDecodeToken(accessToken)
     useEffect(() => {
-        if (!user) {
-            router.push('/');
+        console.log(!user, !access_token)
+        if (user.length === 0 && access_token.length === 0) {
+            return router.push('/');
         }
-    }, [user, router]);
+    }, [user, access_token, router]);
 
-    return <>{children}</>;
+    return (user && access_token ? children : null);
 };
 
 export default ProtectedRoute;

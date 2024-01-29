@@ -45,7 +45,7 @@ export default function Home() {
             setAuthUser(userData);
             showAlert(response.message, 'success')
             setProcessing(false)
-            return router.push('/dashboard')
+            return userData.role === 'user' ? router.push('/user-dashboard') : router.push('/dashboard')
         }
 
         setProcessing(false)
