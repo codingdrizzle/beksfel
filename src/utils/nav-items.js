@@ -10,7 +10,7 @@ if (typeof window !== "undefined") user = JSON.parse(localStorage.getItem('user'
 export const NavItems = [
     {
         name: 'Dashboard',
-        route: '/dashboard',
+        route: user?.role === 'user' ? '/user-dashboard' : '/dashboard',
         icon: <BsGridFill />,
         permissions: ['user', 'accountant', 'manager'],
     },
