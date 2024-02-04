@@ -4,8 +4,44 @@ import { FaCediSign } from 'react-icons/fa6'
 import { GoDotFill } from 'react-icons/go'
 import { FaUser } from "react-icons/fa";
 import { Button } from '../Button';
+import Prompt from '../Prompt';
+import { EditInvoice } from '../../api'
+import { useRouter } from 'next/router';
+import { useAtomValue } from 'jotai';
+import { authUser } from '../../store';
+import { useAlert } from '../../hooks/useCustomAlert';
 
 const ViewInvoice = ({ info, closeModal }) => {
+    const {showAlert} = useAlert()
+
+    const [showPrompt, setShowPrompt] = useState(false)
+    const [action, setAction] = useState('approval')
+
+    const router = useRouter()
+    const user = useAtomValue(authUser)
+
+    const handleApprove = async () => {
+        const response = await EditInvoice(info._id, { status: 'approved', approved_by: user.firstname })
+        if (response.code === 200) {
+            setShowPrompt(false)
+            showAlert('Invoice approved successfully', 'success')
+            closeModal();
+            return router.push('/invoice/all')
+        }
+        return showAlert('Failed to approve invoice', 'error')
+    }
+    
+    const handleReject = async () => {
+        const response = await EditInvoice(info._id, { status: 'rejected', approved_by: user.firstname })
+        if (response.code === 200) {
+            setShowPrompt(false)
+            showAlert('Invoice rejected successfully', 'success')
+            closeModal();
+            return router.push('/invoice/all')
+        }
+        return showAlert('Failed to reject invoice', 'error')
+    }
+
     return (
         <div className='my-10'>
             <h2 className='text-3xl font-bold mb-5'>Invoice details</h2>
@@ -113,11 +149,41 @@ const ViewInvoice = ({ info, closeModal }) => {
                     </span>
                 </div>
             </div>
-            <div className='w-full flex justify-center items-center'>
-                <button className='border-[1px] border-red-500 bg-red-500 text-white rounded-md w-1/3 p-2' onClick={closeModal}>
-                    Close
-                </button>
-            </div>
+
+            {
+                user.role === 'manager' &&
+                <div className='w-full flex justify-center items-center space-x-4'>
+                    {
+                        (info?.status === 'rejected' || info?.status === 'pending') &&
+                        <Button variant={'outline'} theme={'#009c1f'} customClasses='px-16' onClick={() => { setShowPrompt(true); setAction('approval') }}>
+                            <span>Approve</span>
+                        </Button>
+                    }
+                    {
+                        (info?.status === 'approved' || info?.status === 'pending') &&
+                        <Button variant={'fill'} theme={'#ed2005'} customClasses='px-16' onClick={() => { setShowPrompt(true); setAction('rejection') }}>
+                            <span>Reject</span>
+                        </Button>
+                    }
+                </div>
+            }
+
+            <Prompt isOpen={showPrompt} onClose={() => setShowPrompt(false)}>
+                <div>
+                    <h1 className='font-normal text-lg'>
+                        Are you sure you want to <b>{action === 'approval' ? 'approve' : 'reject'}</b> this invoice?
+                    </h1>
+                    <div className='flex items-center justify-center space-x-4'>
+                        <Button variant={'fill'} theme={'#009c1f'} onClick={() => action === 'approval' ? handleApprove() : handleReject()}>
+                            <span>Proceed</span>
+                        </Button>
+                        <Button variant={'fill'} theme={'#ed2005'} onClick={() => setShowPrompt(false)}>
+                            <span>Cancel</span>
+                        </Button>
+
+                    </div>
+                </div>
+            </Prompt>
         </div>
     )
 }

@@ -92,8 +92,6 @@ export const SideNavCollapse = ({ title, isSideBarCollapse, dataSource }) => {
     )
 }
 export const SideNavCollapseMobile = ({ dataSources }) => {
-
-    console.log(dataSources)
     return (
         <div className='grid grid-cols-3 sm:grid-cols-4  w-full h-full p-10'>
             {

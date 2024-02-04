@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { BsFillBookmarkStarFill } from "react-icons/bs";
 import { CgArrowsExchangeV } from 'react-icons/cg';
 import { GoDotFill } from 'react-icons/go';
 import { FaCediSign } from 'react-icons/fa6';
@@ -17,7 +16,7 @@ const MostRecentInvoices = () => {
             const response = await RecentInvoices();
             if (response.code === 200) {
                 setLoading(false)
-                return setRecents(response.data)
+                return setRecents(response.data.reverse())
             }
         })()
     }, [])

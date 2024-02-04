@@ -4,8 +4,11 @@ import Preloader from '../../commons/Preloader'
 
 const Invoices = ({ data }) => {
     return (
-        data.length < 1 ? <Preloader/> :
-            <InvoiceTable viewMode={true} invoices={data} />
+        data.length < 1 ? <Preloader /> :
+            <>
+                <span className='my-2 text-base'>Showing <b>{data.length}</b> invoices</span>
+                <InvoiceTable viewMode={true} invoices={data} />
+            </>
 
     )
 }

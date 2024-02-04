@@ -56,9 +56,6 @@ const Invoice = ({ children }) => {
         {
             title: 'My Invoices',
             route: '/invoice/me'
-        }, {
-            title: 'Drafts',
-            route: '/invoice/drafts'
         }
     ]
     const tabsForAdmins = [
@@ -69,18 +66,13 @@ const Invoice = ({ children }) => {
         {
             title: 'My Invoices',
             route: '/invoice/me'
-        }, {
-            title: 'Drafts',
-            route: '/invoice/drafts'
         }
     ]
-
 
     return (
         <Layout>
             <div className='flex flex-col'>
-                <div className='w-full flex justify-between items-center my-7'>
-                    <SearchBar handleSearch={handleSearch} />
+                <div className='w-full flex justify-end items-center my-7'>
                     <Button theme={'red'} onClick={() => router.push('/invoice/create')}>Create Invoice</Button>
                 </div>
                 <Tabs tabs={user.role === 'user' ? tabsForUser : tabsForAdmins} />
