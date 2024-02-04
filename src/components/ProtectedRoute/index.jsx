@@ -9,7 +9,6 @@ const ProtectedRoute = ({ children }) => {
     const user = useAtom(authUser);
 
     useEffect(() => {
-        console.log(!user, !access_token)
         if (user.length === 0 && access_token.length === 0) {
             return router.push('/');
         }
