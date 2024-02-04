@@ -79,7 +79,7 @@ const CreateInvoice = () => {
                         <FaSave />
                         <span>Submit Invoice</span>
                     </Button>
-                    <Button variant={'outline'} theme={'#ed2005'} >
+                    <Button variant={'outline'} theme={'#ed2005'} onClick={() => router.push('/invoice/me')}>
                         <MdDelete size={20} />
                         <span>Discard Invoice</span>
                     </Button>

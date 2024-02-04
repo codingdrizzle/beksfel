@@ -9,21 +9,23 @@ const InvoiceItem = (props) => {
     const { item, index, viewMode } = props;
 
     const [items, setItems] = useAtom(invoiceItems);
-    
+
     const [isEditMode, setIsEditMode] = useState(viewMode);
     const [isLastItem, setIsLastItem] = useState(index === (items.length - 1));
 
     const handleFieldChange = useCallback((field, value) => {
         setItems((prev) =>
             prev.map((item, key) =>
-                index === key ? { ...item, [field]: value } : item
+                key === index ? { ...item, [field]: value } : item
             )
         );
     }, [index, setItems]);
 
-    const handleRemoveItem = () => {
-        if (items.length >= 2) {
-            setItems((prev) => prev.filter((_, i) => i !== index));
+    const handleRemoveItem = (index) => {
+        if (items.length === 1) {
+            return;
+        } else {
+            return setItems((prev) => prev.filter((_, i) => i !== index));
         }
     };
 
@@ -33,7 +35,7 @@ const InvoiceItem = (props) => {
 
     useEffect(() => {
         handleFieldChange('amount', Number(item.rate) * Number(item.quantity))
-    }, [handleFieldChange, item.rate, item.quantity])
+    }, [handleFieldChange, item.quantity, item.rate])
 
     return (
         <div className='w-full bg-white grid grid-flow-col-dense grid-cols-13 gap-10 py-4 px-10 font-light' style={{ transition: 'all 0.5s ease' }}>
@@ -53,7 +55,7 @@ const InvoiceItem = (props) => {
                 <input type='text' disabled={!isLastItem ? !isLastItem : isEditMode} defaultValue={item.rate} placeholder='Price rate' className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' onChange={(e) => handleFieldChange('rate', e.target.value)} />
             </div>
             <div className="col-span-2 flex items-center justify-start">
-                <input type='text' disabled defaultValue={isNaN(item.amount) ? 0 : item.amount} className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' />
+                <input type='text' disabled defaultValue={item.amount} className='w-full h-full px-4 rounded-md focus:outline-none bg-slate-50 disabled:bg-transparent' />
             </div>
             <div className="col-span-2 flex items-center justify-start space-x-3">
                 {(!isLastItem ? !isLastItem : isEditMode) ?
@@ -67,9 +69,12 @@ const InvoiceItem = (props) => {
                         <FaSave />
                     </button>
                 }
-                <button className='w-10 h-10 rounded-md flex justify-center items-center bg-red-50 text-red-600 text-xl cursor-pointer' onClick={handleRemoveItem}>
-                    <MdOutlineDelete />
-                </button>
+                {
+                    items.length >= 2 &&
+                    <button className='w-10 h-10 rounded-md flex justify-center items-center bg-red-50 text-red-600 text-xl cursor-pointer' onClick={() => handleRemoveItem(index)}>
+                        <MdOutlineDelete />
+                    </button>
+                }
             </div>
         </div>
     )
