@@ -18,7 +18,7 @@ const InvoiceItemsTable = (props) => {
                             return (
                                 <InvoiceItem key={index} index={index} item={item} viewMode={false} />
                             )
-                        }).reverse()
+                        })
                     }
             {props.children}
                 </div>
