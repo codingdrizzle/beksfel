@@ -30,27 +30,6 @@ export const NavItems = [
 ]
 
 
-//export const Apps = [
-//    {
-//        name: '',
-//        route: '/edit-profile',
-//        icon: <FaFileInvoiceDollar />,
-//        permissions: ['user', 'accountant', 'manager'],
-//    },
-//    {
-//        name: 'Change Password',
-//        route: '/new-password',
-//        icon: <BsGridFill />,
-//        permissions: ['user', 'accountant', 'manager'],
-//    },
-//    {
-//        name: 'Delete Account',
-//        route: '/delete-account',
-//        icon: <FaHandHoldingUsd />,
-//        permissions: ['user', 'accountant', 'manager']
-//    },
-
-//] 
 
 export const Account = [
     {
@@ -59,17 +38,17 @@ export const Account = [
         icon: <FaUserEdit />,
         permissions: ['user', 'accountant', 'manager'],
     },
-    {
-        name: 'Change Password',
-        route: '/new-password',
-        icon: <FaLock />,
-        permissions: ['user', 'accountant', 'manager'],
-    },
-    {
-        name: 'Delete Account',
-        route: '/delete-account',
-        icon: <AiFillDelete/>,
-        permissions: ['user', 'accountant', 'manager']
-    },
+    //{
+    //    name: 'Change Password',
+    //    route: '/new-password',
+    //    icon: <FaLock />,
+    //    permissions: ['user', 'accountant', 'manager'],
+    //},
+    //{
+    //    name: 'Delete Account',
+    //    route: '/delete-account',
+    //    icon: <AiFillDelete/>,
+    //    permissions: ['user', 'accountant', 'manager']
+    //},
 
 ] 

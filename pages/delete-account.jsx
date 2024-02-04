@@ -24,14 +24,15 @@ const DeleteAccount = () => {
   return (
     <Layout> 
     
-    <div className="flex flex-col items-center m-4 pt-10">
-      <h2 className=" uppercase">Delete Account</h2>
+    <div className="flex flex-col items-start m-4 pt-10">
+              <h1 className="text-black uppercase text-2xl mt-4 mb-2">
+Delete Account</h1>
       <p>
         To delete your account, please enter <strong>delete</strong> below:
       </p>
       <input
         className=" form-input"
-        type="text"
+        type="email"
         value={confirmation}
         onChange={handleConfirmationChange}
       />

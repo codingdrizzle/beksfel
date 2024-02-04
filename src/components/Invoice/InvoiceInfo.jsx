@@ -6,12 +6,12 @@ import { invoiceInfo, invoiceInitialInfo } from '../../store'
 import { Button } from '../Button';
 import Modal from '../Modal'
 import DatePicker from 'react-datepicker'
+import { MdDateRange } from "react-icons/md";
 
 const InvoiceInfo = () => {
     const [info, setInfo] = useAtom(invoiceInfo)
     const [showModal, setShowModal] = useState(false)
-    const [startDate, setStartDate] = useState(new Date());
-
+    
     const generateInvoiceNumber = () => Math.floor(10000 + Math.random() * 90000);
     
     useEffect(() => {
@@ -23,11 +23,8 @@ const InvoiceInfo = () => {
     }
     
     const handleModalClose = () => {
-        //setInfo(prev => ({ ...prev, invoice_number: generateInvoiceNumber(), date: new Date().toISOString() }));
         setShowModal(false);
     }
-
-    console.log(info.date)
 
     return (
         <>
@@ -74,8 +71,7 @@ const InvoiceInfo = () => {
                     </div>
                     <div className='col-span-6 md:col-span-3'>
                         <p className='flex items-center justify-between space-x-1'>Date</p>
-                        {/*<input className="" type="text" defaultValue={info.date?.split('T')[0]} />*/}
-                        <DatePicker className='w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]' showIcon selected={''} onChange={(e) => setInfo(prev => ({...prev, date: e.target.value}))} />
+                        <DatePicker value={info.date} customInput className='w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]' showIcon icon={<MdDateRange size={35}/>} onChange={(e) => setInfo(prev => ({ ...prev, date: e.toISOString().slice(0, 10) }))} />
                     </div>
                     <div className='col-span-6 md:col-span-3'>
                         <p>Project name</p>

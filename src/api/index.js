@@ -200,3 +200,16 @@ export const StatusPercentages = async () => {
         else return { message: error.data?.error?.message }
     }
 }
+
+export const EditInvoice = async (id, data) => {
+    try {
+        const response = await API.put(`/invoice/${id}`, data)
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        if (error.data.message) return { message: error.data.message }
+        else return { message: error.data?.error?.message }
+    }
+}
