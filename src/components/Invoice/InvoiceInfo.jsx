@@ -71,7 +71,7 @@ const InvoiceInfo = () => {
                     </div>
                     <div className='col-span-6 md:col-span-3'>
                         <p className='flex items-center justify-between space-x-1'>Date</p>
-                        <DatePicker value={info.date} customInput className='w-full h-[40px] m-[6px 0] pl-[15px] text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]' showIcon icon={<MdDateRange size={35}/>} onChange={(e) => setInfo(prev => ({ ...prev, date: e.toISOString().slice(0, 10) }))} />
+                        <DatePicker value={info.date}  className='w-full h-[40px]  text-[13px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] rounded-md focus:border-[#4B70E2]' showIcon icon={<MdDateRange size={35}/>} onChange={(e) => setInfo(prev => ({ ...prev, date: e.toISOString().slice(0, 10) }))} />
                     </div>
                     <div className='col-span-6 md:col-span-3'>
                         <p>Project name</p>

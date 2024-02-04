@@ -182,6 +182,10 @@ body {
     align-items: center !important;
 }
 
+.react-datepicker-wrapper{
+    width: 100% !important;
+    height: 40px;
+}
 
 svg.react-datepicker__calendar-icon{
     font-size:  larger;
