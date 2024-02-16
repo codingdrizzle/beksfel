@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Layout from "../src/components/Layout";
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -26,10 +27,10 @@ const ChangePassword = () => {
 
       try {
         // Simulate an API call for password change (replace with actual API call)
-        const response = await fetch('/api/change-password', {
-          method: 'POST',
+        const response = await fetch("/api/change-password", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             currentPassword,
@@ -39,7 +40,7 @@ const ChangePassword = () => {
 
         if (response.ok) {
           // Password changed successfully
-          alert('Password changed successfully.');
+          alert("Password changed successfully.");
         } else {
           // Handle server-side errors
           const errorMessage = await response.text();
@@ -47,55 +48,61 @@ const ChangePassword = () => {
         }
       } catch (error) {
         // Handle network errors
-        console.error('Network error:', error.message);
+        console.error("Network error:", error.message);
       } finally {
         setIsChanging(false);
       }
     } else {
-      alert('New password and confirm password must match.');
+      alert("New password and confirm password must match.");
     }
   };
 
   return (
-    <div className="flex flex-col items-center m-4 pt-4">
-      <h2 className="uppercase m-2">Change Password</h2>
-      <label>
-        Current Password:
-        <input
-        className="form-input"
-          type="password"
-          value={currentPassword}
-          onChange={handleCurrentPasswordChange}
-          placeholder=" enter current password"
-          required
-        />
-      </label>
-      <label>
-        New Password:
-        <input
-        className="form-input"
-          type="password"
-          value={newPassword}
-          onChange={handleNewPasswordChange}
-          placeholder=" enter new password"
-          required
-        />
-      </label>
-      <label>
-        Confirm New Password:
-        <input
-        className="form-input"
-        type="password"
-          value={confirmPassword}
-          onChange={handleConfirmPasswordChange}
-          placeholder=" confirm new password"
-          required
-        />
-      </label>
-      <button className="auth-button" onClick={handleChangePassword} disabled={isChanging}>
-        {isChanging ? "Changing..." : "Change Password"}
-      </button>
-    </div>
+    <Layout>
+      <div className="flex flex-col items-center m-4 pt-4">
+        <h2 className="uppercase m-2">Change Password</h2>
+        <label>
+          Current Password:
+          <input
+            className="form-input"
+            type="password"
+            value={currentPassword}
+            onChange={handleCurrentPasswordChange}
+            placeholder=" enter current password"
+            required
+          />
+        </label>
+        <label>
+          New Password:
+          <input
+            className="form-input"
+            type="password"
+            value={newPassword}
+            onChange={handleNewPasswordChange}
+            placeholder=" enter new password"
+            required
+          />
+        </label>
+        <label>
+          Confirm New Password:
+          <input
+            className="form-input"
+            type="password"
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
+            placeholder=" confirm new password"
+            required
+          />
+        </label>
+        <button
+          className="auth-button"
+          onClick={handleChangePassword}
+          disabled={isChanging}
+        >
+          {isChanging ? "Changing..." : "Change Password"}
+        </button>
+      </div>
+    </Layout>
   );
 };
 
