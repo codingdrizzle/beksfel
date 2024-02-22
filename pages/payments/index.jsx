@@ -1,11 +1,12 @@
 import React from 'react'
-import Layout from '../src/components/Layout'
+import Layout from '../../src/components/Layout'
+import Options from '../../src/components/Payment/Options'
 
 const Payments = () => {
+
     return (
         <Layout>
-
-            <div>Payments</div>
+            <Options/>
         </Layout>
     )
 }

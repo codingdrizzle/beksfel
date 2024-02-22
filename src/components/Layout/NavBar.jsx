@@ -3,6 +3,7 @@ import Logo from '../../commons/Logo'
 import Image from 'next/image'
 import { useAtomValue } from 'jotai'
 import { authUser } from '../../store'
+import profile_avatar from '../../assets/avatar.jpg'
 
 const NavBar = ({ isSideBarCollapse }) => {
 
@@ -12,7 +13,7 @@ const NavBar = ({ isSideBarCollapse }) => {
             <div className='md:hidden'><Logo width={80} height={80} /></div>
             <div>
                 <div className="flex items-center justify-end">
-                    <Image src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D" alt="User Profile" width={100} height={100} className="h-12 w-12 rounded-full object-cover" />
+                    <Image src={profile_avatar} alt="User Profile" width={100} height={100} className="h-12 w-12 rounded-full object-cover" />
                     <div className="ml-3">
                         <h3 className="text-lg font-semibold">{`${firstname} ${surname}`}</h3>
                     </div>
