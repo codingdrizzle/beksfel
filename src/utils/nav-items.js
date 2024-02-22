@@ -21,7 +21,7 @@ export const NavItems = [
         permissions: ['user', 'accountant', 'manager'],
     },
     {
-        name: 'Payments Voucher',
+        name: 'Payments',
         route: '/payments',
         icon: <FaHandHoldingUsd />,
         permissions: ['accountant', 'manager']
