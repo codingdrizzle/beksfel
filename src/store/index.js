@@ -23,26 +23,17 @@ export const invoiceInitialInfo = {
 }
 
 export const pvInit = {
-    pv_number: null,
-    date: null,
-    allocation: null,
-    name: null,
-    payment_type: null,
-    cheque_number: null,
-    bank_name: null,
-    gross_amount: null,
-    tax: null,
-    net_amount: null,
-    tin_number: null,
-    balance: null,
-    invoice_id: null,
-    invoice: null,
-    status: null,
-    approved_by: null,
-    approved_date: null,
-    received_by: null,
-    receiver_contact: null,
-    receiver_signature: null
+    pv_number: '',
+    date: '',
+    payment_type: '',
+    cheque_number: '',
+    bank_name: '',
+    tin_number: '',
+    invoice_id: '',
+    tax: '',
+    gross_amount: '',
+    net_amount: '',
+    balance: '',
 }
 
 export const invoiceItems = atom([invoiceInitialItem])
