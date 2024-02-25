@@ -34,7 +34,7 @@ const InvoiceItem = (props) => {
     }, [items.length]);
 
     useEffect(() => {
-        handleFieldChange('amount', Number(item.rate) * Number(item.quantity))
+        handleFieldChange('amount', parseFloat(item.rate) * parseFloat(item.quantity))
     }, [handleFieldChange, item.quantity, item.rate])
 
     return (

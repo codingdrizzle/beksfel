@@ -21,7 +21,7 @@ export const Button = (props) => {
         color: variant === 'fill' ? 'white' : variant === 'outline' ? textColor : 'white'
     }
 
-    const buttonClasses = `flex justify-between items-center space-x-2 text-base shadow-sm rounded-md w-auto h-auto my-3 px-5 py-3 border-[1px] font-medium transition-all duration-700 transform hover:scale-[1.04] ${customClasses || ''} `
+    const buttonClasses = `flex justify-between items-center space-x-2 text-base text-center shadow-sm rounded-md w-auto h-auto my-3 px-5 py-3 border-[1px] font-medium transition-all duration-700 transform hover:scale-[1.04] ${customClasses || ''} `
 
     return (
         <button style={themeStyles} className={buttonClasses} onClick={() => props.onClick()}>

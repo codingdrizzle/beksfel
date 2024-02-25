@@ -191,3 +191,13 @@ svg.react-datepicker__calendar-icon{
     font-size:  larger;
     left: -5px !important;
 }
+
+.lock{
+    position: relative;
+}
+.lock::after{
+    content: '🔒';
+    position: absolute;
+    left: 105%;
+    top: 0%;
+}

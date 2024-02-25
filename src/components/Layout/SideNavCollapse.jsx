@@ -66,9 +66,6 @@ export const SideNavCollapse = ({ title, isSideBarCollapse, dataSource }) => {
                                             {item.icon} {!isSideBarCollapse && <span className='text-base'>{item.name}</span>}
                                         </button>
                                     }
-                                    {/*<div className={`${isSideBarCollapse ? 'hidden group-hover:flex absolute left-[70px] w-24 h-12 bg-white top-0 justify-start items-center' : 'hidden'}`}>
-                                        <span onClick={() => handleNavigate(index)} className='cursor-pointer'>{item.name}</span>
-                                    </div>*/}
                                 </div>
                             )}
                             {item.subItems && activeSubMenu === index && (

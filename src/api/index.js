@@ -38,7 +38,7 @@ export const Register = async (userData) => {
 
 export const SendResetPasswordLink = async (email) => {
     try {
-        const response = await API.post('/auth/reset-link', {email})
+        const response = await API.post('/auth/reset-link', { email })
         return response.data
     } catch (error) {
         if (error === undefined) {
@@ -50,7 +50,7 @@ export const SendResetPasswordLink = async (email) => {
 
 export const ResetPasswordLink = async (email, password) => {
     try {
-        const response = await API.post('/auth/reset-password', {email,password})
+        const response = await API.post('/auth/reset-password', { email, password })
         return response.data
     } catch (error) {
         if (error === undefined) {
@@ -71,11 +71,11 @@ export const EditUserProfile = async (id, data) => {
         return { message: error.data.message }
     }
 }
-        
-        
+
+
 export const FindAllInvoices = async () => {
     try {
-        const response = await API.get('/invoices')
+        const response = await API.post('/invoices', {status:'approved'})
         return response.data
     } catch (error) {
         if (error === undefined) {
@@ -87,7 +87,19 @@ export const FindAllInvoices = async () => {
 
 export const FindAllInvoicesByUser = async (created_by) => {
     try {
-        const response = await API.post(`/invoices`,{created_by})
+        const response = await API.post(`/invoices`, { created_by })
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        return { message: error.data.message }
+    }
+}
+
+export const FindOneInvoice = async (id) => {
+    try {
+        const response = await API.get(`/invoice/${id}`)
         return response.data
     } catch (error) {
         if (error === undefined) {
@@ -99,7 +111,7 @@ export const FindAllInvoicesByUser = async (created_by) => {
 
 export const CreateNewInvoice = async (invoice) => {
     try {
-        const response = await API.post(`/invoice/new`,invoice)
+        const response = await API.post(`/invoice/new`, invoice)
         return response.data
     } catch (error) {
         if (error === undefined) {
@@ -204,6 +216,19 @@ export const StatusPercentages = async () => {
 export const EditInvoice = async (id, data) => {
     try {
         const response = await API.put(`/invoice/${id}`, data)
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        if (error.data.message) return { message: error.data.message }
+        else return { message: error.data?.error?.message }
+    }
+}
+
+export const CreatePv = async (data) => {
+    try {
+        const response = await API.post(`/voucher/new`, data)
         return response.data
     } catch (error) {
         if (error === undefined) {

@@ -125,12 +125,14 @@ export const EditProfileSchema = Joi.object({
 })
 
 export const InvoiceSchema = Joi.object({
+    _id: Joi.string().optional(),
     invoice_number: Joi.number().required(),
     project_name: Joi.string().required(),
     project_location: Joi.string().required(),
     date: Joi.date().required(),
     status: Joi.string().valid('pending', 'approved', 'rejected').default('pending'),
     items: Joi.array().items(Joi.object({
+        _id: Joi.string().optional(),
         description: Joi.string().required().messages({
             'string.empty': 'Description must not be empty',
             'string.base': 'Description must be alphanumeric',
@@ -163,4 +165,22 @@ export const InvoiceSchema = Joi.object({
     invoice_by: Joi.string().required(),
     approved_by: Joi.string(),
     created_by: Joi.string(),
+    createdAt: Joi.string().optional(),
+    updatedAt: Joi.string().optional(),
+    __v: Joi.any().optional(),
+});
+
+export const PaymentSchema = Joi.object({
+    pv_number: Joi.number().required(),
+    date: Joi.date().iso().required(),
+    payment_type: Joi.string().required(),
+    cheque_number: Joi.string().allow('').optional(),
+    bank_name: Joi.string().allow('').optional(),
+    tin_number: Joi.string().allow('').optional(),
+    invoice_id: Joi.string().required(),
+    tax: Joi.string().required(),
+    gross_amount: Joi.number().required(),
+    net_amount: Joi.number().required(),
+    amount_received: Joi.number().required(),
+    balance: Joi.number().required(),
 });
