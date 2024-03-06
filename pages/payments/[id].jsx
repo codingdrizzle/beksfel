@@ -39,14 +39,6 @@ const CreatePv = () => {
         setInvItems(items);
     }, [invoice, setInvInfo, setInvItems])
 
-    useEffect(() => {
-        const gross = Array.isArray(invItems) && invItems.reduce((acc, item) => {
-            const amount = parseFloat(item.amount) || 0;
-            return acc + amount;
-        }, 0);
-        setInvItems(prev => ({ ...prev, total: gross }))
-    }, [setInvItems])
-
     return (
         <Layout>
             <div className='w-[90%] md:w-[85%] m-auto flex flex-col gap-8'>

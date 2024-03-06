@@ -50,19 +50,19 @@ const Submit = ({ actualInvoice, storeInvoice }) => {
         if (pvValidationError) return showAlert(pvValidationError, 'error')
         if (invoiceValidationError) return showAlert(invoiceValidationError, 'error')
 
-        const { _id, __v, updatedAt, createdAt, ...restOfFilteredInvoice } = storeInvoice 
+        const { _id, __v, updatedAt, createdAt, ...restOfFilteredInvoice } = storeInvoice
 
-        const invoice = deepEqual(actualInvoice, storeInvoice) ? {} : restOfFilteredInvoice 
+        const invoice = deepEqual(actualInvoice, storeInvoice) ? {} : restOfFilteredInvoice
 
         const response = await CreatePv({ ...pV, invoice: invoice });
-            if (response.code === 201) {
-                setPv(pvInit)
-                setInvoiceInfo(invoiceInitialInfo)
-                setInvoiceItems(invoiceInitialItem)
-                router.push('/payments')
-                return showAlert(response.message, 'success')
-            }
-            return showAlert(response.message, 'error') 
+        if (response.code === 200) {
+            setPv(pvInit)
+            setInvoiceInfo(invoiceInitialInfo)
+            setInvoiceItems(invoiceInitialItem)
+            router.push('/payments')
+            return showAlert(response.message, 'success')
+        }
+        return showAlert(response.message, 'error')
     }
 
     return (
