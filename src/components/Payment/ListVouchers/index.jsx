@@ -1,24 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import Invoices from './Invoices'
-import { FindAllInvoices } from '../../../api'
-import { useAlert } from '../../../hooks/useCustomAlert'
+import React, { useState } from 'react'
+import Vouchers from './Vouchers'
 import { FiSearch } from 'react-icons/fi'
 
-const ListInvoices = () => {
-    const [invoices, setInvoices] = useState([])
+const ListVouchers = ({pvs}) => {
     const [filteredInvoices, setFilteredInvoices] = useState([]);
     const [searchValue, setSearchValue] = useState('');
-    const { showAlert } = useAlert();
-
-    useEffect(() => {
-        (async () => {
-            let response;
-            response = await FindAllInvoices({ status: 'approved' })
-
-            if (response.code === 200) return setInvoices([...response.data]);
-            return showAlert(response.message, 'error');
-        })()
-    }, [showAlert])
 
     const handleSearch = (searchText) => {
         setSearchValue(searchText);
@@ -30,8 +16,6 @@ const ListInvoices = () => {
         setFilteredInvoices(filtered);
     };
     return (
-        <>
-            <h1 className='text-2xl font-medium'>Select an Invoice</h1>
             <div className='py-10'>
                 <div className="rounded-md flex space-x-2 items-center justify-between">
                     <div className="relative">
@@ -48,11 +32,9 @@ const ListInvoices = () => {
                         />
                     </div>
                 </div>
-                <Invoices data={filteredInvoices.length > 0 ? filteredInvoices : invoices} />
+                <Vouchers data={filteredInvoices.length > 0 ? filteredInvoices : pvs} />
             </div>
-
-        </>
     )
 }
 
-export default ListInvoices;
+export default ListVouchers;

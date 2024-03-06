@@ -1,23 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Layout from '../../src/components/Layout'
 import Tabs from '../../src/components/Tabs'
-import Invoices from '../../src/components/Invoice/Invoices'
-import SearchBar from '../../src/components/SearchBar'
-import { Button, ButtonOutline } from '../../src/components/Button'
+import { Button } from '../../src/components/Button'
 import { useRouter } from 'next/router'
-import { FindAllInvoices, FindAllInvoicesByUser } from '../../src/api'
-import { useAlert } from '../../src/hooks/useCustomAlert'
 import { useAtomValue } from 'jotai'
 import { authUser } from '../../src/store'
-import MyInvoices from '../../src/components/Invoice/MyInvoices'
 
 const Invoice = ({ children }) => {
     const user = useAtomValue(authUser)
     const router = useRouter();
-
-    const [invoices, setInvoices] = useState([])
-    const [noSearchResults, setNoSearchResults] = useState([])
-
     const searchFilter = (searchValue, arr) => {
         let searchBy = searchValue.split(" ");
 
@@ -38,19 +29,6 @@ const Invoice = ({ children }) => {
             )
         );
     };
-
-
-    const handleSearch = (searchValue) => {
-        if (searchValue.length === 0 || searchValue === '') return setInvoices([...invoices])
-        const filteredSearchData = searchFilter(searchValue, invoices)
-        if (filteredSearchData.length === 0) setNoSearchResults(true)
-        else {
-            setNoSearchResults(false)
-            setInvoices([...filteredSearchData]);
-        }
-    }
-
-
 
     const tabsForUser = [
         {

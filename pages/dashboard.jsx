@@ -11,13 +11,17 @@ import { useAtomValue } from 'jotai';
 import { authUser } from '../src/store';
 import MostRecentInvoices from '../src/components/Dashboard/Admin/RecentInvoices';
 import StatusPercents from '../src/components/Dashboard/Admin/StatusPercentages';
+import { useRouter } from 'next/router';
 
 const Dashboard = () => {
     const [invoiceCounts, setInvoiceCounts] = useState({});
     const user = useAtomValue(authUser);
 
+    const router = useRouter()
+
     useEffect(() => {
         (async () => {
+            if (user.role === 'user') return router.push('/user-dashboard')
             const response = await FetchInvoicesCount();
             if (response.code === 200) return setInvoiceCounts(response.data);
         })()

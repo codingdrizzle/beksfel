@@ -88,6 +88,7 @@ const MineInvoices = () => {
                     <option value="default">Reset</option>
                 </select>
             </div>
+            
             <MyInvoices data={filteredInvoices.length > 0 ? filteredInvoices : invoices} />
         </Invoice>
     );

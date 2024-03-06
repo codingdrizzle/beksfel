@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx';
 
-const exportToExcel = () => {
+export const exportToExcel = (dataToExport) => {
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.aoa_to_sheet([dataToExport]);
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');

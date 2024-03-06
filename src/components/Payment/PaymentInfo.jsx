@@ -26,14 +26,23 @@ const PaymentInfo = () => {
                             <option value="bank">Bank</option>
                         </select>
                     </div>
-                    <div className='w-full sm:w-1/2 lg:w-full'>
-                        {pV.payment_type && <Input placeholder={pV.payment_type === 'cash' ? 'Enter bank account number' : 'Enter cheque number'} value={pV.payment_type === 'cash' ? pV.bank_name : pV.cheque_number} onChange={(e) => handleFieldChange(pV.payment_type === 'cash' ? 'bank_name' : 'cheque_number', e.target.value)} />}
-                    </div>
+                    {
+                        pV.payment_type === 'bank' &&
+                        <>
+                            < div className='w-full sm:w-1/2 lg:w-full'>
+                                <Input placeholder={'Enter bank account number'} value={pV.bank_name} onChange={(e) => handleFieldChange('bank_name', e.target.value)} />
+                            </div>
+                            <div className='w-full sm:w-1/2 lg:w-full'>
+                                <Input disabled={pV.bank_name.length < 1} placeholder={'Enter cheque number'} value={pV.cheque_number} onChange={(e) => handleFieldChange('cheque_number', e.target.value)} />
+                            </div>
+                        </>
+                    }
+
                 </div>
                 <div className='col-span-7 lg:col-span-2'>
                     <Input placeholder={'TIN number'} value={pV.tin_number} onChange={(e) => handleFieldChange('tin_number', e.target.value)} />
                 </div>
-            </div>
+            </div >
             <div className='grid grid-cols-8 gap-4 md:gap-6 lg:gap-20'>
                 <div className='col-span-8 sm:col-span-4 md:col-span-2 '>
                     <Input placeholder={'Gross amount'} value={pV.gross_amount} onChange={(e) => handleFieldChange('gross_amount', e.target.value)} />
@@ -48,7 +57,7 @@ const PaymentInfo = () => {
                     <Input placeholder={'Balance'} value={pV.balance} onChange={(e) => handleFieldChange('balance', e.target.value)} />
                 </div>
             </div>
-                <h1 className='text-lg'>Tax Applied</h1>
+            <h1 className='text-lg'>Tax Applied</h1>
             <div className='flex flex-col md:flex-row justify-start items-center space-y-3 md:space-x-6 md:space-y-0'>
                 <button className='w-full md:w-auto md:min-w-[150px] rounded-lg border-[1px] bg-green-50/50 border-green-500 text-green-500 p-2 flex items-center justify-center space-x-3 transition duration-300 hover:scale-[1.03] cursor-pointer' onClick={() => handleFieldChange('tax', '3%')}>
                     <span className='text-[17px]'>Good - 3%</span>

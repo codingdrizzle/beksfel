@@ -4,6 +4,9 @@ import Invoice from '.'
 import { FindAllInvoices } from '../../src/api'
 import { useAlert } from '../../src/hooks/useCustomAlert'
 import { FiSearch } from 'react-icons/fi'
+import { useAtomValue } from 'jotai'
+import { authUser } from '../../src/store'
+import { useRouter } from 'next/router'
 
 
 const AllInvoices = () => {
@@ -13,15 +16,19 @@ const AllInvoices = () => {
     const { showAlert } = useAlert();
     const [selectedFilter, setSelectedFilter] = useState('default');
 
+    const user = useAtomValue(authUser);
+    const router = useRouter()
+
     useEffect(() => {
         (async () => {
+            if (user.role === 'user') return router.push('/invoice/me')
             let response;
             response = await FindAllInvoices()
 
             if (response.code === 200) return setInvoices([...response.data]);
             return showAlert(response.message, 'error');
         })()
-    }, [showAlert])
+    }, [showAlert, router, user.role])
 
     const handleFilter = (filterValue) => {
         switch (filterValue) {
