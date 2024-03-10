@@ -31,6 +31,8 @@ const Submit = ({ actualInvoice, storeInvoice }) => {
         const keys2 = Object.keys(obj2);
 
         if (keys1.length !== keys2.length) {
+            console.log(keys1.length)
+            console.log(keys2.length)
             return false;
         }
 
@@ -50,19 +52,24 @@ const Submit = ({ actualInvoice, storeInvoice }) => {
         if (pvValidationError) return showAlert(pvValidationError, 'error')
         if (invoiceValidationError) return showAlert(invoiceValidationError, 'error')
 
-        const { _id, __v, updatedAt, createdAt, ...restOfFilteredInvoice } = storeInvoice
+        delete actualInvoice.__v
+        delete actualInvoice.updatedAt
+        delete actualInvoice.updated_by
 
-        const invoice = deepEqual(actualInvoice, storeInvoice) ? {} : restOfFilteredInvoice
+        delete storeInvoice.__v
+        delete storeInvoice.updatedAt
+        delete storeInvoice.updated_by
 
-        console.log({ ...pV, invoice: invoice })
-        const response = await CreatePv({ ...pV, invoice: invoice });
+        const invoice = deepEqual(actualInvoice, storeInvoice) ? {} : storeInvoice
+
+        const response = await CreatePv({ ...pV, invoice });
         
         if (response.code === 200) {
-            //setPv(pvInit)
-            //setInvoiceInfo(invoiceInitialInfo)
-            //setInvoiceItems(invoiceInitialItem)
-            //router.push('/payments')
-            //return showAlert(response.message, 'success')
+            setPv(pvInit)
+            setInvoiceInfo(invoiceInitialInfo)
+            setInvoiceItems(invoiceInitialItem)
+            router.push('/payments')
+            return showAlert(response.message, 'success')
         }
         return showAlert(response.message, 'error')
     }

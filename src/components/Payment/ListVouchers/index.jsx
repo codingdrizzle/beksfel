@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Vouchers from './Vouchers'
 import { FiSearch } from 'react-icons/fi'
 
-const ListVouchers = ({pvs}) => {
+const ListVouchers = ({ pvs, isLoading }) => {
     const [filteredInvoices, setFilteredInvoices] = useState([]);
     const [searchValue, setSearchValue] = useState('');
 
@@ -15,6 +15,7 @@ const ListVouchers = ({pvs}) => {
         );
         setFilteredInvoices(filtered);
     };
+    
     return (
             <div className='py-10'>
                 <div className="rounded-md flex space-x-2 items-center justify-between">
@@ -32,7 +33,7 @@ const ListVouchers = ({pvs}) => {
                         />
                     </div>
                 </div>
-                <Vouchers data={filteredInvoices.length > 0 ? filteredInvoices : pvs} />
+                <Vouchers isLoading={isLoading} data={filteredInvoices.length > 0 ? filteredInvoices : pvs} />
             </div>
     )
 }
