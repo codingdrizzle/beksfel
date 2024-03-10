@@ -63,8 +63,7 @@ const Submit = ({ actualInvoice, storeInvoice }) => {
         const invoice = deepEqual(actualInvoice, storeInvoice) ? {} : storeInvoice
 
         const response = await CreatePv({ ...pV, invoice });
-        
-        if (response.code === 200) {
+        if (response.code === 201) {
             setPv(pvInit)
             setInvoiceInfo(invoiceInitialInfo)
             setInvoiceItems(invoiceInitialItem)
