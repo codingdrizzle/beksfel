@@ -9,6 +9,7 @@ import ShowInvoice from '../../../src/components/Payment/ViewVouchers/ShowInvoic
 import PaymentInfo from '../../../src/components/Payment/ViewVouchers/PaymentInfo'
 import { Button } from '../../../src/components/Button';
 import {exportToExcel} from '../../../src/utils/export-to-excel'
+import Back from '../../../src/commons/Back';
 
 const Voucher = () => {
     const [pv, setPv] = useState({})
@@ -27,13 +28,14 @@ const Voucher = () => {
 
     return (
         <Layout>
+            <Back to={'/payments/view-vouchers'} />
             <div className='my-10'>
                 <div className='flex justify-between items-center space-x-3 border-b-[1px] border-gray-300'>
                     <Button theme={'#000'} variant={'outline'} className='print:hidden' onClick={() => window.print()}>
                         <FaPrint />
                         <span>Print</span>
                     </Button>
-                    <Button theme={'#3786FB'} variant={'outline'} className='print:hidden' onClick={() => exportToExcel([ ])}>
+                    <Button theme={'#3786FB'} variant={'outline'} className='print:hidden' onClick={() => exportToExcel([ w])}>
                         <BiSolidFileExport />
                         <span>Export to file</span>
                     </Button>

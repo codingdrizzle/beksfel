@@ -185,9 +185,19 @@ export const PaymentSchema = Joi.object({
         otherwise: Joi.string().allow('').optional(),
     }),    tin_number: Joi.string().allow('').optional(),
     invoice_id: Joi.string().required(),
-    tax: Joi.string().required(),
+    tax_amount: Joi.number().required(),
+    tax_percent: Joi.string().required(),
     gross_amount: Joi.number().required(),
     net_amount: Joi.number().required(),
     amount_received: Joi.number().required(),
     balance: Joi.number().required(),
+});
+
+export const IncomeSchema = Joi.object({
+    siteName: Joi.string().required().messages({
+        'string.empty': 'Site name must not be empty',
+        'string.base': 'Site name must include alphabets',
+    }),
+    date: Joi.date().iso().required(),
+    amount: Joi.number().required()
 });

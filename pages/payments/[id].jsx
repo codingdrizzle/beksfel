@@ -9,6 +9,7 @@ import ShowInvoice from '../../src/components/Payment/ShowInvoice';
 import Submit from '../../src/components/Payment/Submit';
 import { useAtom } from 'jotai'
 import { invoiceInfo, invoiceItems,pv } from '../../src/store'
+import Back from '../../src/commons/Back';
 
 
 const CreatePv = () => {
@@ -39,13 +40,16 @@ const CreatePv = () => {
         setInvItems(items);
     }, [invoice, setInvInfo, setInvItems])
 
+    const { updatedAt, updated_by, __v, ...neededPartOfInvoice } = invInfo;
+
     return (
         <Layout>
+            <Back to={'/payments'} />
             <div className='w-[90%] md:w-[85%] m-auto flex flex-col gap-8'>
                 <BasicInfo pV={pV} />
                 <ShowInvoice invoice={invoice} loading={loading} invInfo={invInfo} invItems={invItems} setInvInfo={setInvInfo} setInvItems={setInvItems}/>
                 <PaymentInfo/>
-                <Submit actualInvoice={invoice} storeInvoice={{items: invItems, ...invInfo}}/>
+                <Submit actualInvoice={invoice} storeInvoice={{ items: invItems, ...neededPartOfInvoice }}/>
             </div>
         </Layout>
     );

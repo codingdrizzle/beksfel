@@ -58,27 +58,30 @@ const PaymentInfo = () => {
                 </div>
             </div>
             <h1 className='text-lg'>Tax Applied</h1>
+            <div className='w-fit'>
+                <Input placeholder={'Tax amount'} value={isNaN(parseFloat(pV.tax_amount)) ? '' : parseFloat(pV.tax_amount)} onChange={(e) => handleFieldChange('tax_amount', parseFloat(e.target.value))} />
+            </div>
             <div className='flex flex-col md:flex-row justify-start items-center space-y-3 md:space-x-6 md:space-y-0'>
-                <button className='w-full md:w-auto md:min-w-[150px] rounded-lg border-[1px] bg-green-50/50 border-green-500 text-green-500 p-2 flex items-center justify-center space-x-3 transition duration-300 hover:scale-[1.03] cursor-pointer' onClick={() => handleFieldChange('tax', '3%')}>
+                <button className='w-full md:w-auto md:min-w-[150px] rounded-lg border-[1px] bg-green-50/50 border-green-500 text-green-500 p-2 flex items-center justify-center space-x-3 transition duration-300 hover:scale-[1.03] cursor-pointer' onClick={() => handleFieldChange('tax_percent', '3%')}>
                     <span className='text-[17px]'>Good - 3%</span>
                     {
-                        pV.tax === '3%' ?
+                        pV.tax_percent === '3%' ?
                             <FaSquareCheck size={20} /> :
                             <span className='w-5 h-5 bg-transparent border-[1px] rounded-sm cursor-pointer'></span>
                     }
                 </button>
-                <button className='w-full md:w-auto md:min-w-[150px] rounded-lg border-[1px] bg-yellow-50/50 border-yellow-500 text-yellow-500 p-2 flex items-center justify-center space-x-3 transition duration-300 hover:scale-[1.03] cursor-pointer' onClick={() => handleFieldChange('tax', '5%')}>
+                <button className='w-full md:w-auto md:min-w-[150px] rounded-lg border-[1px] bg-yellow-50/50 border-yellow-500 text-yellow-500 p-2 flex items-center justify-center space-x-3 transition duration-300 hover:scale-[1.03] cursor-pointer' onClick={() => handleFieldChange('tax_percent', '5%')}>
                     <span className='text-[17px]'>Work - 5%</span>
                     {
-                        pV.tax === '5%' ?
+                        pV.tax_percent === '5%' ?
                             <FaSquareCheck size={20} /> :
                             <span className='w-5 h-5 bg-transparent border-[1px] rounded-sm cursor-pointer'></span>
                     }
                 </button>
-                <button className='w-full md:w-auto md:min-w-[150px] rounded-lg border-[1px] bg-red-50/50 border-red-500 text-red-500 p-2 flex items-center justify-center space-x-3 transition duration-300 hover:scale-[1.03] cursor-pointer' onClick={() => handleFieldChange('tax', '7%')}>
+                <button className='w-full md:w-auto md:min-w-[150px] rounded-lg border-[1px] bg-red-50/50 border-red-500 text-red-500 p-2 flex items-center justify-center space-x-3 transition duration-300 hover:scale-[1.03] cursor-pointer' onClick={() => handleFieldChange('tax_percent', '7%')}>
                     <span className='text-[17px]'>Service 7%</span>
                     {
-                        pV.tax === '7%' ?
+                        pV.tax_percent === '7%' ?
                             <FaSquareCheck size={20} /> :
                             <span className='w-5 h-5 bg-transparent border-[1px] rounded-sm cursor-pointer'></span>
                     }
