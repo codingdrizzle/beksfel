@@ -43,7 +43,7 @@ const Voucher = () => {
     delete invoice_id?.updated_by
     delete invoice_id?.approved_by
     delete invoice_id?.status
-    invoice_id.date = invoice_id?.date?.split('T')[0]
+    //invoice_id.date = invoice_id?.date?.split('T')[0]
 
     const { items, ...restOfInvoiceData } = invoice_id || {};
 
