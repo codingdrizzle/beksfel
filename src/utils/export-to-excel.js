@@ -1,5 +1,6 @@
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
+//import imageFilePath from '../assets/logo/logo.png'
 
 const workbook = new ExcelJS.Workbook();
 const worksheet = workbook.addWorksheet('Sheet 1');
@@ -110,6 +111,11 @@ export const exportToExcel = (data, fileName) => {
     totalCell.font = { bold: true, size: 12 };
     totalCell.alignment = { horizontal: 'left' };
     
+    //worksheet.addImage({
+    //    image: imageFilePath,
+    //    tl: { col: 0, row: 0 },
+    //    ext: { width: 100, height: 100 }, // Adjust width and height as needed
+    //});
     
     for (let col = 1; col <= 100; col++) {
         worksheet.getColumn(col).width = 20;
