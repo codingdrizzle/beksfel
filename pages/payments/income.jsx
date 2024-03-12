@@ -4,11 +4,15 @@ import { Button } from '../../src/components/Button'
 import { useRouter } from 'next/router'
 import Back from '../../src/commons/Back'
 import NotFound from '../../src/commons/NotFound'
-import Link from 'next/link'
-import { MdDelete, MdEdit } from 'react-icons/md'
+import { MdDelete, MdEdit, MdDateRange } from 'react-icons/md'
 import { FiSearch } from 'react-icons/fi'
-import { DeleteIncome, FetchAllIncome } from '../../src/api'
+import DatePicker from 'react-datepicker'
+import { DeleteIncome, FetchAllIncome, EditIncome } from '../../src/api'
 import { useAlert } from '../../src/hooks/useCustomAlert'
+import Modal from '../../src/components/Modal'
+import Input from '../../src/components/Input'
+import { validateInput } from '../../src/utils/input-validator/validator'
+import { IncomeSchema } from '../../src/utils/input-validator'
 
 const Income = () => {
     const router = useRouter()
@@ -16,7 +20,12 @@ const Income = () => {
     const { showAlert } = useAlert();
     const [filteredIncomes, setFilteredIncomes] = useState([]);
     const [searchValue, setSearchValue] = useState('');
+    const [editItem, setEditItem] = useState({});
+    const [showModal, setShowModal] = useState(false);
 
+    const [siteName, setSiteName] = useState('');
+    const [date, setDate] = useState('');
+    const [amount, setAmount] = useState('');
 
     const handleDelete = async (income_id) => {
         const response = await DeleteIncome(income_id);
@@ -28,12 +37,13 @@ const Income = () => {
         return null;
     }
 
+    console.log(editItem)
     useEffect(() => {
         (async () => {
             const response = await FetchAllIncome();
             setIncomes(response.data)
         })()
-    }, [incomes])
+    }, [])
 
     const handleSearch = (searchText) => {
         setSearchValue(searchText);
@@ -44,6 +54,35 @@ const Income = () => {
         );
         setFilteredIncomes(filtered);
     };
+
+    useEffect(() => {
+        (() => {
+
+            setSiteName(editItem.site_name)
+            setDate(editItem.date?.split('T')[0])
+            setAmount(editItem.amount)
+        })()
+    }, [editItem])
+
+    const handleEditTrigger = (item) => {
+        setEditItem(item)
+        setShowModal(true)
+    }
+
+    const handleEditIncome = async () => {
+        const errorMessage = validateInput(IncomeSchema, { siteName, date, amount })
+
+        if (errorMessage) return showAlert(errorMessage, 'error')
+        if (siteName === editItem.site_name && amount === editItem.amount && (new Date(date).toISOString()) === editItem.date) return showAlert('Nothing was changed, try making changes', 'error')
+        
+        const response = await EditIncome(editItem._id, { site_name: siteName, date, amount })
+        if (response.code === 200) {
+            setShowModal(false)
+            return showAlert(response.message, 'success');
+        }
+        showAlert(response.message, 'error');
+
+    }
 
     const data = filteredIncomes.length > 0 ? filteredIncomes : incomes
 
@@ -102,9 +141,9 @@ const Income = () => {
                                 <span>{item.amount}</span>
                             </div>
                             <div className='flex justify-start items-center space-x-3'>
-                                <Link href={`/payments/id`} className='w-auto h-auto py-2 rounded-md opacity-0 group-hover:opacity-100 flex justify-center items-center bg-black text-white text-base font-medium px-3 cursor-pointer space-x-2'>
+                                <button className='w-auto h-auto py-2 rounded-md opacity-0 group-hover:opacity-100 flex justify-center items-center bg-black text-white text-base font-medium px-3 cursor-pointer space-x-2' onClick={() => handleEditTrigger(item)}>
                                     <MdEdit size={20} />
-                                </Link>
+                                </button>
                                 <button className='w-auto h-auto py-2 rounded-md opacity-0 group-hover:opacity-100 flex justify-center items-center bg-red-500 text-white text-base font-medium px-3 cursor-pointer space-x-2' onClick={() => handleDelete(item._id)}>
                                     <MdDelete size={25} />
                                 </button>
@@ -113,6 +152,32 @@ const Income = () => {
                         ).reverse()}
                 </div>
             </div>
+            <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+                <div className='my-6'>
+                    <Back to={'/payments/income'} />
+                    <h1 className='text-2xl font-semibold'>Edit income</h1>
+                    <h1 className='my-3'>Modify income details with the form below.</h1>
+                    <form className='w-96 max-w-full space-y-4' onSubmit={(e) => e.preventDefault()}>
+                        <div>
+                            <span className='block my-1'>Site name</span>
+                            <Input placeholder='Eg: Site name' value={siteName} onChange={(e) => setSiteName(e.target.value)} />
+                        </div>
+                        <div>
+                            <span className='block my-1'>Date</span>
+                            <DatePicker value={date} className='w-full h-[40px] text-[15px] tracking-tight outline-none bg-[#ecf0f3] transition-all duration-[0.55s] border-[1px] border-gray-400 rounded-md focus:border-[#4B70E2] disabled:cursor-not-allowed' showIcon icon={<MdDateRange size={35} />} onChange={(e) => setDate(e.toISOString().slice(0, 10))} />
+                        </div>
+                        <div>
+                            <span className='block my-1'>Amount</span>
+                            <Input placeholder='Amount' value={isNaN(parseFloat(amount)) ? 0 : parseFloat(amount)} onChange={(e) => setAmount(e.target.value)} />
+                        </div>
+                        <div className='w-full flex justify-center items-center'>
+                            <Button theme={'black'} variant={'fill'} customClasses={'w-full'} onClick={handleEditIncome}>
+                                <span className='block text-center w-full'>Edit Income</span>
+                            </Button>
+                        </div>
+                    </form>
+                </div>
+            </Modal>
         </Layout>
     )
 }

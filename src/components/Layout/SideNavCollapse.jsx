@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react'
-import {authUser} from '../../store'
+import { authUser } from '../../store'
 
 export const SideNavCollapse = ({ title, isSideBarCollapse, dataSource }) => {
     const router = useRouter()
@@ -58,9 +58,9 @@ export const SideNavCollapse = ({ title, isSideBarCollapse, dataSource }) => {
                             ) : (
                                 <div className='group relative'>
                                     {
-                                            item.permissions.includes(user.role) &&
+                                        item.permissions.includes(user.role) &&
                                         <button
-                                                    className={`flex items-center space-x-3 text-xl h-12 w-full hover:text-blue-400 px-5 rounded-lg ${isSideBarCollapse ? 'justify-center w-[90%] mx-auto' : ''} ${router.pathname.includes(item.route) ? 'bg-blue-100 text-blue-400' : ''}`}
+                                            className={`flex items-center space-x-3 text-xl h-12 w-full hover:text-blue-400 px-5 rounded-lg ${isSideBarCollapse ? 'justify-center w-[90%] mx-auto' : ''} ${router.pathname.includes(item.route) ? 'bg-blue-100 text-blue-400' : ''}`}
                                             onClick={() => router.push(item.route)}
                                         >
                                             {item.icon} {!isSideBarCollapse && <span className='text-base'>{item.name}</span>}
@@ -89,13 +89,18 @@ export const SideNavCollapse = ({ title, isSideBarCollapse, dataSource }) => {
     )
 }
 export const SideNavCollapseMobile = ({ dataSources }) => {
+    const router = useRouter()
+
+    const handleNavigate = (route = '/dashboard') => {
+        return router.push(route)
+    }
     return (
-        <div className='grid grid-cols-3 sm:grid-cols-4  w-full h-full p-10'>
+        <div className='grid grid-cols-4  w-full h-full p-10'>
             {
                 dataSources.map((dataSource, dataSourceIndex) => (
                     <React.Fragment key={dataSourceIndex}>
                         {dataSource.map((item, index) => (
-                            <button key={index} className='flex flex-col justify-center items-center text-xl space-y-1'>
+                            <button key={index} className='col-span-2 flex flex-col justify-center items-center text-xl space-y-1' onClick={() => handleNavigate(item.route)}>
                                 {item.icon}
                                 <span className='text-base'>{item.name}</span>
                             </button>

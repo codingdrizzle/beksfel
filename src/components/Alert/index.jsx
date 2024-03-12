@@ -18,7 +18,7 @@ const Alert = () => {
     };
 
     return (
-        <div className='fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-auto min-w-[300px] max-w-[50%] fly-in'>
+        <div className='fixed top-20 left-1/2 transform -translate-x-1/2 z-[9999] w-auto min-w-[300px] max-w-[50%] fly-in'>
             {alert && (
                 <div
                     style={{ ...getAlertStyle(alert.type), borderWidth: '2px', borderStyle: 'solid' }}

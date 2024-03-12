@@ -48,7 +48,6 @@ const Voucher = () => {
     const { items, ...restOfInvoiceData } = invoice_id || {};
 
     const exportData = { pvData: pvDetails, invoiceData: restOfInvoiceData, invoiceItems: invoice_id?.items }
-    console.log(exportData)
 
     return (
         <Layout>

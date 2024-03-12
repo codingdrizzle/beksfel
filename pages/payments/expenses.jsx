@@ -10,9 +10,10 @@ const Expenses = () => {
     return (
         <Layout>
             <Back to = { '/payments'} />         
-            <Button theme={'black'} variant={'fill'} onClick={() => router.push('create-Expenses')}>
-                Create Expenses
-            </Button>
+            <h1 className='font-bold text-3xl'>
+                Hold on for a while... <br />
+                All will be ready in the next push 🫥 🫥
+            </h1>
         </Layout>
     )
 }

@@ -227,9 +227,8 @@ export const EditInvoice = async (id, data) => {
 }
 
 export const CreatePv = async (data) => {
-    console.log(data)
     try {
-        const response = await API.post(`/voucher/new`, {...data})
+        const response = await API.post(`/voucher/new`, { ...data })
         return response.data
     } catch (error) {
         if (error === undefined) {
@@ -282,7 +281,6 @@ export const DeletePv = async (id) => {
 export const CreateNewIncome = async (data) => {
     try {
         const response = await API.post(`/income/new`, data)
-        console.log(response)
         return response.data
     } catch (error) {
         if (error === undefined) {
@@ -310,6 +308,19 @@ export const DeleteIncome = async (id) => {
     try {
         const response = await API.delete(`/income/${id}`)
         return response
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        if (error.data.message) return { message: error.data.message }
+        else return { message: error.data?.error?.message }
+    }
+}
+
+export const EditIncome = async (id, data) => {
+    try {
+        const response = await API.put(`/income/${id}`, data)
+        return response.data
     } catch (error) {
         if (error === undefined) {
             return { message: 'Check your internet connection and try again.', type: 'failure' }
