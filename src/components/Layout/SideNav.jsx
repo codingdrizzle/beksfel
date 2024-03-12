@@ -58,13 +58,13 @@ const SideNav = ({ isSideBarCollapse, setIsSideBarCollapse }) => {
             </div>
 
             {/* Mobile */}
-            <button className={`${showAssistiveMenuDisabler ? 'fixed block inset-0 bg-opacity-50 backdrop-blur-sm h-full w-full z-[60]' : 'hidden'} `} onClick={deactivateAssistiveMenu}>
+            <button className={`${showAssistiveMenuDisabler ? 'fixed block inset-0 bg-opacity-50 backdrop-blur-sm h-full w-full z-[99999]' : 'hidden'} `} onClick={deactivateAssistiveMenu}>
                 <div className='fixed inset-0 bg-black bg-opacity-50'></div>
             </button>
-            <button id='myDiv' className='fixed bottom-10 right-10 bg-red-400 w-16 h-16 cursor-pointer rounded-full flex justify-center items-center md:hidden z-[70]' onClick={activeAssistiveMenu}>
+            <button id='myDiv' className='fixed bottom-10 right-10 bg-red-400 w-16 h-16 cursor-pointer rounded-full flex justify-center items-center md:hidden z-[99999]' onClick={activeAssistiveMenu}>
                 {
                     showAssistiveMenuDisabler ?
-                        <SideNavCollapseMobile dataSources={[NavItems, NavItems]} /> :
+                        <SideNavCollapseMobile dataSources={[NavItems, Account]} /> :
                         <TbNavigationFilled size={40} color='#fff' />
                 }
             </button>

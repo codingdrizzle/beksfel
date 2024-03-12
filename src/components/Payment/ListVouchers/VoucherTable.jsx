@@ -13,11 +13,11 @@ const VoucherTable = (props) => {
                             return (
                                 <VoucherTableRow key={index} index={index} data={item} viewMode={true} />
                             )
-                        })
+                        }).reverse()
                     }
                 </div>
             </div>
-    )
+    )   
 }
 
 export default VoucherTable

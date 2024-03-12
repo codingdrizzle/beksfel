@@ -31,8 +31,6 @@ const Submit = ({ actualInvoice, storeInvoice }) => {
         const keys2 = Object.keys(obj2);
 
         if (keys1.length !== keys2.length) {
-            console.log(keys1.length)
-            console.log(keys2.length)
             return false;
         }
 

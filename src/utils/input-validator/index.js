@@ -179,11 +179,17 @@ export const PaymentSchema = Joi.object({
         then: Joi.string().required(),
         otherwise: Joi.string().allow('').optional(),
     }),
+    bank_account_number: Joi.when('payment_type', {
+        is: 'bank',
+        then: Joi.string().required(),
+        otherwise: Joi.string().allow('').optional(),
+    }),    
     bank_name: Joi.when('payment_type', {
         is: 'bank',
         then: Joi.string().required(),
         otherwise: Joi.string().allow('').optional(),
-    }),    tin_number: Joi.string().allow('').optional(),
+    }),    
+    tin_number: Joi.string().allow('').optional(),
     invoice_id: Joi.string().required(),
     tax_amount: Joi.number().required(),
     tax_percent: Joi.string().required(),
