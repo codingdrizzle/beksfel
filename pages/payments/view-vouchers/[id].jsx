@@ -8,7 +8,7 @@ import { FetchPv } from '../../../src/api'
 import ShowInvoice from '../../../src/components/Payment/ViewVouchers/ShowInvoice'
 import PaymentInfo from '../../../src/components/Payment/ViewVouchers/PaymentInfo'
 import { Button } from '../../../src/components/Button';
-import { exportToExcel } from '../../../src/utils/export-to-excel'
+import { exportToExcel } from '../../../src/utils/export-data/export-to-excel'
 import Back from '../../../src/commons/Back';
 
 const Voucher = () => {

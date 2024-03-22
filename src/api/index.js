@@ -329,3 +329,16 @@ export const EditIncome = async (id, data) => {
         else return { message: error.data?.error?.message }
     }
 }
+
+export const FetchRange = async (range) => {
+    try {
+        const response = await API.post(`/vouchers-range`, range)
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        if (error.data.message) return { message: error.data.message }
+        else return { message: error.data?.error?.message }
+    }
+}

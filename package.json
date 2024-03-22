@@ -9,6 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@adobe/react-spectrum": "^3.34.1",
         "autoprefixer": "10.4.14",
         "axios": "1.4.0",
         "chart.js": "^4.4.1",
@@ -22,9 +23,7 @@
         "react-datepicker": "^4.25.0",
         "react-dom": "18.2.0",
         "react-loader-spinner": "5.4.5",
-        "react-signature-canvas": "^1.0.6",
-        "tailwindcss": "3.3.3",
-        "xlsx": "^0.18.5"
+        "tailwindcss": "3.3.3"
     },
     "devDependencies": {
         "@commitlint/config-conventional": "17.8.0",
