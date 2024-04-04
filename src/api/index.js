@@ -330,9 +330,9 @@ export const EditIncome = async (id, data) => {
     }
 }
 
-export const FetchRange = async (range) => {
+export const FetchRange = async (monthYear) => {
     try {
-        const response = await API.post(`/vouchers-range`, range)
+        const response = await API.post(`/vouchers-range`, monthYear)
         return response.data
     } catch (error) {
         if (error === undefined) {

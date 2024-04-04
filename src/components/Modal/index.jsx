@@ -1,6 +1,7 @@
 // components/Modal.js
 import React from 'react';
 import { FaTimes } from 'react-icons/fa'
+import Preloader from '../../commons/Preloader';
 
 const Modal = ({ isOpen, onClose, children }) => {
     return (
@@ -16,6 +17,23 @@ const Modal = ({ isOpen, onClose, children }) => {
                             {children}
                         </div>
                     </div> : <></>
+            }
+        </>
+    );
+};
+
+
+export const ModalLoader = ({ isOpen }) => {
+    return (
+        <>
+            {
+                isOpen &&
+                    <div className={'fixed inset-0 flex justify-center items-center bg-opacity-50 backdrop-blur-lg z-[9999]'}>
+                        <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center">
+                            <Preloader/>
+                        </div>
+
+                    </div>
             }
         </>
     );
