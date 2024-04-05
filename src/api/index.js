@@ -355,3 +355,16 @@ export const CreateExpenses = async (expenses) => {
         else return { message: error.data?.error?.message }
     }
 }
+
+export const FetchExpenses = async (year) => {
+    try {
+        const response = await API.get(`/expenses/${year}` )
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        if (error.data.message) return { message: error.data.message }
+        else return { message: error.data?.error?.message }
+    }
+}
