@@ -342,3 +342,16 @@ export const FetchRange = async (monthYear) => {
         else return { message: error.data?.error?.message }
     }
 }
+
+export const CreateExpenses = async (expenses) => {
+    try {
+        const response = await API.post(`/expenses/new`, expenses)
+        return response.data
+    } catch (error) {
+        if (error === undefined) {
+            return { message: 'Check your internet connection and try again.', type: 'failure' }
+        }
+        if (error.data.message) return { message: error.data.message }
+        else return { message: error.data?.error?.message }
+    }
+}

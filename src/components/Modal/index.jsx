@@ -28,7 +28,7 @@ export const ModalLoader = ({ isOpen }) => {
         <>
             {
                 isOpen &&
-                    <div className={'fixed inset-0 flex justify-center items-center bg-opacity-50 backdrop-blur-lg z-[9999]'}>
+                    <div className={'fixed inset-0 flex justify-center items-center bg-opacity-50 backdrop-blur-lg z-[9999999]'}>
                         <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center">
                             <Preloader/>
                         </div>

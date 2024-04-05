@@ -5,8 +5,9 @@ import Layout from '../../src/components/Layout'
 import Back from '../../src/commons/Back'
 import ExportExpenses from '../../src/components/Expenses/ExportExpenses';
 import UploadExpenses from '../../src/components/Expenses/UploadExpenses';
+import ArchivedExpenses from '../../src/components/Expenses/ArchivedExpenses';
 import { FaFileExport } from "react-icons/fa";
-import { RiFolderUploadFill } from "react-icons/ri";
+import { RiFolderUploadFill, RiArchiveDrawerFill } from "react-icons/ri";
 
 const Expenses = () => {
     const [modalContent, setModalContent] = useState('export')
@@ -30,6 +31,10 @@ const Expenses = () => {
                     <RiFolderUploadFill className='text-[30px] group-hover:text-blue-400  transition-all duration-300' />
                     <h1 className='text-left font-medium'>Upload Expenses</h1>
                 </button>
+                <button className='col-span-1 w-full min-w-[100px] max-w-[250px] h-[80px] rounded-xl bg-white flex justify-start items-center p-5 space-x-2 cursor-pointer transition-all duration-300 group hover:scale-[1.04]' onClick={() => handleShowModal('archive')}>
+                    <RiArchiveDrawerFill className='text-[30px] group-hover:text-blue-400  transition-all duration-300' />
+                    <h1 className='text-left font-medium'>Archived Expenses</h1>
+                </button>
             </div>
 
             <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
@@ -37,7 +42,10 @@ const Expenses = () => {
                     modalContent === 'export' && <ExportExpenses />
                 }
                 {
-                    modalContent === 'upload' && <UploadExpenses />
+                    modalContent === 'upload' && <UploadExpenses closeMe={() => setShowModal(false)}/>
+                }
+                {
+                    modalContent === 'archive' && <ArchivedExpenses />
                 }
             </Modal>
         </Layout>
