@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useAlert } from '../../hooks/useCustomAlert'
-import { FetchRange } from '../../api';
-import { bulkExportToExcel } from '../../utils/export-data/bulk-export-to-excel';
+import { FetchExpenses } from '../../api';
+import { insertDataIntoExcel } from '../../utils/export-data/insert-data-to-excel';
 import { ModalLoader } from '../Modal'
 import { FaDownload } from "react-icons/fa";
 
@@ -15,29 +15,7 @@ const ArchiveExpenses = () => {
     const startYear = 2024;
 
     const { showAlert } = useAlert()
-
-    const handleExport = async () => {
-        setShowLoader(true)
-        const months = {
-            "January": "01", "February": "02", "March": "03", "April": "04", "May": "05", "June": "06",
-            "July": "07", "August": "08", "September": "09", "October": "10", "November": "11", "December": "12"
-        };
-
-        const monthNumber = months[monthYear.split(',')[0]];
-        const year = monthYear.split(',')[1].trim();
-
-        const response = await FetchRange({ monthYear: `${monthNumber}/${year}` });
-        if (response.code === 200) {
-            setShowLoader(false)
-            if (response.data.length === 0) {
-                setMonthYear('')
-                return showAlert(`No data to export for ${monthYear.split(',')[0]}`, 'error')
-            }
-            return bulkExportToExcel(response.data, `${monthYear.split(',')[0]}-${selectedYear}.xlsx`, `${monthYear.split(',')[0]}-${selectedYear}`)
-        }
-
-    }
-
+    
     useEffect(() => {
         const yearsArray = [];
         for (let i = parseInt(startYear); i <= parseInt(currentYear); i++) {
@@ -46,9 +24,20 @@ const ArchiveExpenses = () => {
         setYears(yearsArray);
     }, [currentYear])
 
+    
+    const handleDownload = async (item) => {
+        setSelectedYear(item)
 
-    const handleClick = (month) => {
-        setMonthYear(`${month}, ${selectedYear}`)
+        const response = await FetchExpenses(selectedYear);
+        if (response.code === 200) {
+            console.log(response.data)
+            setShowLoader(false)
+            if (response.data.length === 0) {
+                setMonthYear('')
+                return showAlert(`No data to export for ${monthYear.split(',')[0]}`, 'error')
+            }
+            return insertDataIntoExcel(response.data.expenses.fileData, `${selectedYear} - Expenses.xlsx`, `${selectedYear} - Expenses.xlsx`)
+        }
     }
 
     return (
@@ -60,7 +49,7 @@ const ArchiveExpenses = () => {
                             return (
                                 <button key={index} className='group relative col-span-1 w-full min-w-[100px] max-w-[250px] h-[80px] rounded-xl bg-white shadow flex justify-center items-center p-5 space-x-2 cursor-default'>
                                     <h1 className='font-medium text-lg'>{item}</h1>
-                                    <span className='hidden group-hover:flex absolute right-7 cursor-pointer w-8 h-8 rounded-lg bg-gray-400 text-white justify-center items-center' onClick={() => setSelectedYear(item)}>
+                                    <span className='hidden group-hover:flex absolute right-7 cursor-pointer w-8 h-8 rounded-lg bg-gray-400 text-white justify-center items-center' onClick={() => handleDownload(item)}>
                                         <FaDownload size={15} />
                                     </span>
                                 </button>)
